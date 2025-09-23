@@ -1,0 +1,58 @@
+# CLASE 1, 9 de septiembre. 
+Diplomatura en Python. 
+
+Charla sobre optimización de código y introducción,
+dnobile@carreralinux.com.ar Correo del profesor Ubuntudde-imac141
+Python clase 1 (abrió ese archivo)
+```python
+edad (variable) = valor #(donde el valor puede ser determinado o puede ser solicitado, como input)
+```
+Tipado dinámico significa que las variables no tienen un tipo fijo en tiempo de compilación: 
+Puedes asignar distintos tipos a la misma variable en momentos diferentes:
+```python
+x = 5 (x es int) 
+x = "hola" (ahora x es str) 
+``` 
+No hay una sola forma de realizar un ingreso.
+Es fuertemente tipado, ya que si uno opta por definir la variable, por ej `int(input(…))` estamos obligando al programa.
+
+Permiso de ejecución: 
+```bash
+chmod +x nombre del archivo
+```
+
+Se puede asignar mas de 1 variable en la misma linea
+
+Una variable es una expresión cuando: cuando no se sabe algo de el valor previo ej:
+```py
+valor = argumento_1
+```
+No se sabe que es `argumento_1`, por lo tanto es una expresión
+
+# Clase 3 16/09
+Estructuras de control (If)
+Errores sintácticos: son errores tipográficos: `‘, : () {} []` palabras mal escritas como Print en mayúscula.
+```py
+lado=int(input("Ingrese la medida del lado del cuadrado:"))
+superficie=lado*lado
+print("La superficie del cuadrado es")
+print(Superficie)
+# No va a funcionar pq superficie != Superficie 
+```
+
+Errores lógicos: Error de mal diagrama de un programa, por ejemplo 
+```py
+lado=int(input("Ingrese la medida del lado del cuadrado:"))
+superficie=lado*lado*lado
+print("La superficie del cuadrado es")
+print(superficie)
+# lado * lado * lado = volumen, no a superficie.
+```
+
+Programación secuencial, el programa se ejecuta linea por linea 
+
+# Clase 4 18/09 
+Loops while. Ver clases
+
+# Clase 5 23/09
+Loops for. Ver clases
