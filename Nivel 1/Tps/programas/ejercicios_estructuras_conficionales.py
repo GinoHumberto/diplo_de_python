@@ -202,9 +202,25 @@ else:
 #otorgarle un aumento de 5 %.
 #c) Si el sueldo es mayor o igual a 500 mostrar el sueldo en pantalla sin
 #cambios.
+'''
+salary = int(input('Ingresa el sueldo del operario: '))
+antigüedad = int(input('Ingresa los años que lleva trabajando en la empresa: '))
 
-
-
+if salary < 500 and antigüedad > 10:
+    print(f'El sueldo a pagar es {salary*0.20+salary}')
+elif salary < 500 and antigüedad < 10:
+    print(f'El sueldo a pagar es {salary*0.05+salary}')
+else:
+    print(salary)
+'''
 #Escribir un programa en el cual: dada una lista de tres valores numéricos
 #distintos se calcule e informe su rango de variación (debe mostrar el mayor y el
 #menor de ellos)
+
+#considerando la variacion como la diferencia:
+valores = []
+while len(valores) < 3:
+    valor = int(input('Ingresa tu valor: '))
+    valores.append(valor)
+print('Tus valores son', valores)
+
