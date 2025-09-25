@@ -174,21 +174,20 @@ if val_1 == val_2 and val_2 == val_3:
 #plano, es decir dos valores enteros x e y (distintos a cero).
 #Posteriormente imprimir en pantalla en que cuadrante se ubica dicho punto.
 #(1º Cuadrante si x > 0 Y y > 0 , 2º Cuadrante: x < 0 Y y > 0, etc.)
-'''
-x_value = float(input('inserta tu valor del eje x: '))
-y_value = float(input('inserta tu valor del eje y: '))
+''' coordenada_x = float(input('inserta tu valor del eje x: '))
+coordenada_y = float(input('inserta tu valor del eje y: '))
 
-if x_value < 0 and y_value < 0:
+if coordenada_x < 0 and coordenada_y < 0:
     print('tu valor se encuentra en el 3er cuadrante')
-elif x_value > 0 and y_value > 0:
+elif coordenada_x > 0 and coordenada_y > 0:
     print('tu valor se encuentra en el 1er cuadrante')
-elif x_value < 0 and y_value > 0:
+elif coordenada_x < 0 and coordenada_y > 0:
     print('tu valor se encuentra en el 2do cuadrante')
-elif x_value > 0 and y_value < 0:
+elif coordenada_x > 0 and coordenada_y < 0:
     print('tu valor se encuentra en el 4to cuadrante')
-elif x_value == 0 and y_value == 0:
+elif coordenada_x == 0 and coordenada_y == 0:
     print('tu valor se encuentra en el origen de coordenadas')
-elif x_value == 0:
+elif coordenada_x == 0:
     print('tu valor se encuentra en la rama del eje x')
 else:
      print('tu valor se encuentra en la rama del eje y')
@@ -398,48 +397,136 @@ print(f'ingresaste {impares} valor(es) impares y {pares} pares')
 # deberá informar:
 # a) De cada triángulo la medida de su base, su altura y su superficie.
 # b) La cantidad de triángulos cuya superficie es mayor a 12.
+'''
+cantidad_triangulos = int(input('Ingresa la cantidad de triangulos del analisis: '))
+while cantidad_triangulos < 0:
+    cantidad_triangulos = int(input('La cantidad no puede ser negativa '))
 
-
-
+mayor12 = 0
+for datos_triangulo in range(cantidad_triangulos):
+    base = int(input('Ingresa la base de tu triangulo: '))
+    altura = int(input('Ingresa la altura de tu triangulo: '))
+    while base <= 0 or altura <= 0:
+        print('Los valores no pueden ser negativos')
+        base = int(input('Ingresa la base de tu triangulo: '))
+        altura = int(input('Ingresa la altura de tu triangulo: '))
+    superficie = base*altura
+    print(f'La base es {base}, la altura es {altura}, la superficie es {superficie}')
+    if superficie > 12:
+        mayor12 += 1
+print('La cantidad de triangulos con superficie mayor a 12 es', mayor12 )
+'''
 # Desarrollar un programa que solicite la carga de 10 números e imprima la
 # suma de los últimos 5 valores ingresados.
-
-
-
+'''
+suma = 0
+for numeros in range(10):
+    carga = int(input('Ingresa uno de los numeros: '))
+    if numeros >= 5:
+        suma = carga + suma
+print(suma)
+'''
 # Desarrollar un programa que muestre la tabla de multiplicar del 5 (del 5 al 50)
-
-
-
+'''
+for tabla in range(1, 11):
+    print(tabla*5)
+'''    
 # Confeccionar un programa que permita ingresar un valor del 1 al 10 y nos
 # muestre la tabla de multiplicar del mismo (los primeros 12 términos)
 # Ejemplo: Si ingreso 3 deberá aparecer en pantalla los valores 3, 6, 9, hasta el
 # 36.
-
-
-
+'''
+valor = int(input('Ingresa tu valor entre 1 y 10: '))
+while valor < 1 or valor > 10:
+    valor = int(input('Ingresa tu valor entre 1 y 10: '))
+for multiplicacion in range(1, 13):
+    print(multiplicacion*valor)
+'''
 # Realizar un programa que lea los lados de n triángulos, e informar:
 # a) De cada uno de ellos, qué tipo de triángulo es: equilátero (tres lados
 # iguales), isósceles (dos lados iguales), o escaleno (ningún lado igual)
 # b) Cantidad de triángulos de cada tipo.
+'''
+cantidad_triangulos = int(input('Ingresa la cantidad de triangulos del analisis: '))
+while cantidad_triangulos < 0:
+    cantidad_triangulos = int(input('La cantidad no puede ser negativa '))
 
-
-
+for tipo in range(cantidad_triangulos):
+    lado1 = int(input('Ingresa un lado de tu triangulo: '))
+    lado2 = int(input('Ingresa otro lado de tu triangulo: '))
+    lado3 = int(input('Ingresa otro lado de tu triangulo: '))
+    while lado1 <= 0 or lado2 <= 0 or lado3 <= 0:
+        print('Los valores no pueden ser negativos')
+        lado1 = int(input('Ingresa un lado de tu triangulo: '))
+        lado2 = int(input('Ingresa otro lado de tu triangulo: '))
+        lado3 = int(input('Ingresa otro lado de tu triangulo: '))
+    if lado1 == lado2 and lado1 == lado3:
+        print('Tu traingulo es equilátero')
+    elif lado1 != lado2 and lado1 != lado3:
+        print('Tu traingulo es escaleno')
+    else:
+        print('Tu traingulo es isóceles')
+'''
 # Escribir un programa que pida ingresar coordenadas (x,y) que representan
 # puntos en el plano.
 # Informar cuántos puntos se han ingresado en el primer, segundo, tercer y
 # cuarto cuadrante. Al comenzar el programa se pide que se ingrese la cantidad
 # de puntos a procesar.
+'''
+valor = int(input('Ingresa cuantos puntos vas a dar: '))
+while valor < 0:
+    valor = int(input('Ingresa cuantos puntos vas a dar: '))
 
-
-
+primer = 0
+segundo = 0
+tercero = 0
+cuarto = 0
+for coordenadas in range(valor):
+    coordenada_x = int(input('Ingresa el valor de tu coordenada x: '))
+    coordenada_y = int(input('Ingresa el valor de tu coordenada y: '))
+    if coordenada_x < 0 and coordenada_y < 0:
+        tercero += 1
+        print('tu valor se encuentra en el 3er cuadrante')
+    elif coordenada_x > 0 and coordenada_y > 0:
+        primero += 1
+        print('tu valor se encuentra en el 1er cuadrante')
+    elif coordenada_x < 0 and coordenada_y > 0:
+        segundo += 1
+        print('tu valor se encuentra en el 2do cuadrante')
+    elif coordenada_x > 0 and coordenada_y < 0:
+        cuarto += 1
+        print('tu valor se encuentra en el 4to cuadrante')
+    elif coordenada_x == 0 and coordenada_y == 0:
+        print('tu valor se encuentra en el origen de coordenadas')
+    elif coordenada_x == 0:
+        print('tu valor se encuentra en la rama del eje x')
+    else:
+         print('tu valor se encuentra en la rama del eje y')
+print(f'En el primer cuadrante: {primer}, en el segundo {segundo}, en el tercero {tercero} y el cuarto {cuarto}')
+'''
 # Se realiza la carga de 10 valores enteros por teclado. Se desea conocer:
 # a) La cantidad de valores ingresados negativos.
 # b) La cantidad de valores ingresados positivos.
 # c) La cantidad de múltiplos de 15.
 # d) El valor acumulado de los números ingresados que son pares.
+'''
+negativo = 0
+positivo = 0
+multiplos15 = 0
+acumpar = 0
 
-
-
+for valores in range(10):
+    numero = int(input('Ingresa tu numero: '))
+    if numero < 0:
+        negativo += 1
+    else:
+        positivo += 1
+    if numero%2 == 0:
+        acumpar = numero + acumpar
+    if numero%15 == 0:
+        multiplos15 += 1
+print(f'Numeros negativos {negativo}, positivos {positivo}, multiplos de 15 {multiplos15}, valor acumulado de los pares {acumpar}')
+'''
 # Se cuenta con la siguiente información:
 # Las edades de 5 estudiantes del turno mañana
 # Las edades de 6 estudiantes del turno tarde.
@@ -449,3 +536,32 @@ print(f'ingresaste {impares} valor(es) impares y {pares} pares')
 # b) Imprimir dichos promedios (promedio de cada turno)
 # c) Mostrar por pantalla un mensaje que indique cual de los tres turnos tiene un
 # promedio de edades mayor.
+# Toma de edades:
+
+def toma (variable, cantidad):
+    for i in range(cantidad):
+        edades = int(input('Ingresa las edades: '))
+        variable.append(edades)
+
+edades_manana = []
+edades_tarde = []
+edades_noche = []
+
+print('Ingresa las edades del turno mañana')
+toma(edades_manana, 5)
+print('Ingresa las edades del turno tarde')
+toma(edades_tarde, 6)
+print('Ingresa las edades del turno noche')
+toma(edades_noche, 11)
+
+promedio_manana = sum(edades_manana)/len(edades_manana)
+promedio_tarde = sum(edades_tarde)/len(edades_tarde)
+promedio_noche = sum(edades_noche)/len(edades_noche)
+print(f'El promedio de edad del turno mañana es {promedio_manana}, el del turno tarde {promedio_tarde} y el de noche {promedio_noche}')
+
+if promedio_manana > promedio_tarde or promedio_manana > promedio_noche:
+    print('El turno mañana tiene la mayor edad promedio')
+elif promedio_manana < promedio_tarde or promedio_tarde > promedio_noche:
+    print('El turno tarde tiene la mayor edad promedio')
+else:
+    print('El turno noche tiene la mayor edad promedio')
