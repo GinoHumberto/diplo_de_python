@@ -56,3 +56,8 @@ Loops while. Ver clases
 
 # Clase 5 23/09
 Loops for. Ver clases
+
+# Clase 6 25/09
+Se van a ver primero los ejercicios
+Funciones: abrio archivo con título "Funciones: parámetros"
+Es una reutilizacion de codigo, es un codigo dentro de una abstracción, esto quiere decir que el codigo esta dentro de un bloque, es un programa que esta en un lugar el cual luego llamo.

@@ -36,13 +36,13 @@ if promedio >= 7:
 
 '''
 numero = int(input('Ingresa tu numero de 1 o 2 digitos: '))
-while numero > 99:
-    numero = int(input('Ingresa tu numero de 1 o 2 digitos: '))
 
 if numero < 10:
     print('Tu número tiene un dígito')
-else:
+elif numero < 100 and numero > 10:
     print('Tu número tiene 2 dígitos')
+else:
+    print('El número debe tener 1 o 2 dígitos')
 '''
 
 # Se cargan por teclado tres números distintos. Mostrar por pantalla el mayor
@@ -537,7 +537,7 @@ print(f'Numeros negativos {negativo}, positivos {positivo}, multiplos de 15 {mul
 # c) Mostrar por pantalla un mensaje que indique cual de los tres turnos tiene un
 # promedio de edades mayor.
 # Toma de edades:
-
+'''
 def toma (variable, cantidad):
     for i in range(cantidad):
         edades = int(input('Ingresa las edades: '))
@@ -565,3 +565,18 @@ elif promedio_manana < promedio_tarde or promedio_tarde > promedio_noche:
     print('El turno tarde tiene la mayor edad promedio')
 else:
     print('El turno noche tiene la mayor edad promedio')
+'''
+
+
+#Resoluciones interesante:
+n=int(input("Ingrese un numero: "))
+if n>=0 and 1<=len(str(n))<=2:
+    print(f"El numero ingresado tiene: {len(str(n))} digitos")
+else:
+    print("El numero ingresado tiene mas de dos digitos o es negativo")
+    n=int(input("Ingrese un numero: "))
+
+if n>=0 and 1<=len(str(n))<=3:
+    print(f"El numero ingresado tiene: {len(str(n))} digitos")
+else:
+    print("El numero ingrsado tiene mas de tres digitos o es negativo")
