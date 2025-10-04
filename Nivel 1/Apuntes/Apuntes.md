@@ -61,3 +61,13 @@ Loops for. Ver clases
 Se van a ver primero los ejercicios
 Funciones: abrio archivo con título "Funciones: parámetros"
 Es una reutilizacion de codigo, es un codigo dentro de una abstracción, esto quiere decir que el codigo esta dentro de un bloque, es un programa que esta en un lugar el cual luego llamo.
+
+# Clase 7 30/09
+Se abrio funciones en python ejercicios resueltos. ver "funciones.py"
+se abrio Funciones teoria y ejercicios
+Introduccion de try y except
+
+# Clase 8 2/10 
+manejo de excepciones (try / except),
+El except puede no estar tipificado en caso de establecer que no importa el error que aparezca lo caputre y muestre una respuesta sin especificar el error especifico o que paso.
+El finally es yun bloque que se ejecuta siempre al terminar el programa.
