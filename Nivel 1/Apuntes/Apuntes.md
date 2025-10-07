@@ -71,3 +71,28 @@ Introduccion de try y except
 manejo de excepciones (try / except),
 El except puede no estar tipificado en caso de establecer que no importa el error que aparezca lo caputre y muestre una respuesta sin especificar el error especifico o que paso.
 El finally es yun bloque que se ejecuta siempre al terminar el programa.
+
+# Clase 9
+```py
+lista=[[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
+# imprimimos la lista completa
+print(lista)
+print("---------")
+# imprimimos la primer componente
+print(lista[0])
+print("---------")
+# imprimimos la primer componente de la lista contenida
+# en la primer componente de la lista principal
+print(lista[0][0])
+print("---------")
+# imprimimos con un for la lista contenida en la primer componente
+for x in range(len(lista[0])):
+    print(lista[0][x])
+        print("---------")
+# imprimimos cada elemento entero de cada lista contenida en la lista
+for k in range(len(lista)):
+    for x in range(len(lista[k])):
+        print(lista[k][x])
+```
+Aca hay una lista principal y una lista secundaria la principal es "lista" y la secundaria seria por ejemplo lista [0] = [1,2,3], es decir la lista dentro de la lista
+
