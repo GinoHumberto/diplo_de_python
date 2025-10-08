@@ -96,3 +96,47 @@ for k in range(len(lista)):
 ```
 Aca hay una lista principal y una lista secundaria la principal es "lista" y la secundaria seria por ejemplo lista [0] = [1,2,3], es decir la lista dentro de la lista
 
+# CREAR EXCEPCIONES
+
+Para crear excepciones tenemos que crear una una clase.
+
+### Por ejemplo queremos crear una excepcion que contenga un punto en el final
+
+```py
+class ErrorDeCadena(Exception):
+    msg = 'La cadena debe terminar con punto' # esto es lo que nos va a retornar el error
+
+def intro_cadena():
+    cadena = input('Ingresa tu cadena que termine con "." ')
+    if cadena[-1] != '.':
+        raise ErrorDeCadena
+    return cadena
+
+try:
+    cadena = intro_cadena()
+    print(f'bien {cadena}')
+except ErrorDeCadena as e:
+    print(f'Error: {e.msg}')
+```
+
+Hay otra forma de comunicar el error, incluido errores ya dados por python como "ValueError":
+```py
+class ErrorDeCadena(Exception):
+    pass
+
+def intro_cadena():
+    cadena = input('Ingresa tu cadena que termine con "." ')
+    if cadena[-1] != '.':
+        raise ErrorDeCadena('xd')
+    elif len(cadena) == 1:
+        raise ValueError('Sos wbon')
+    return cadena
+
+try:
+    cadena = intro_cadena()
+    print(f'bien {cadena}')
+except ErrorDeCadena as e:
+    print(f'Error: {e}')
+except ValueError as e:
+    print(e)
+```
