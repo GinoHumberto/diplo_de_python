@@ -140,3 +140,55 @@ except ErrorDeCadena as e:
 except ValueError as e:
     print(e)
 ```
+
+# Clase 10
+Como eliminar un elemento de una lista
+```py
+lista=[10, 20, 30, 40, 50]
+print(lista)
+lista.pop(0)
+lista.pop(1)
+lista.pop(2)
+print(lista)
+```
+aca va a eliminar el elemento 0,1,2 es decir va a quedar solo 20 y 40
+
+Esto es porque el elemento q se borra en 0 es el 10, en 1 es el 30 y no el 20 ya que el 20 pasa a ser el elemento 0 cuando se borra el 10.
+
+Ahora si quisieramos borrar, 10, 20, 30 
+```py
+lista=[10, 20, 30, 40, 50]
+print(lista)
+for pop in range(3):
+    lista.pop(0)
+```
+
+tambien se puede borrar un elemento utilizando `del(lista[x])`:
+```py
+lista=[10, 20, 30, 40, 50]
+print(lista)
+del(lista[0])
+del(lista[1])
+del(lista[2])
+print(lista) # 20 40
+```
+## Tuplas
+
+las tuplas llevan parentecis, `tupla = ()`
+En cuanto a funcionamiento, los datos de una tupla son inmutables, esot quiere decir que no podemos agregar, modificar o borrar sus elementos
+
+Una lista puede pasar a ser una tupla y visceversa:
+```py
+fechatupla1=(25, 12, 2016)
+print("Imprimimos la primer tupla")
+print(fechatupla1)
+fechalista=list(fechatupla1)
+print("Imprimimos la lista que se le copio la tupla anterior")
+print(fechalista)
+fechalista[0]=31
+print("Imprimimos la lista ya modificada")
+print(fechalista)
+fechatupla2=tuple(fechalista)
+print("Imprimimos la segunda tupla que se le copio la lista")
+print(fechatupla2)
+```
