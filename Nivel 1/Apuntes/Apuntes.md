@@ -192,3 +192,31 @@ fechatupla2=tuple(fechalista)
 print("Imprimimos la segunda tupla que se le copio la lista")
 print(fechatupla2)
 ```
+
+# Clase 11 
+
+## Listas y tuplas andidadas
+Tengo una lista [juan (1, 2)] con una tuola adentro o visceversa. 
+Se puede mutar la lista dentro de una tupla, por ej:
+```py
+alumno=("pedro",[7, 9])
+print(alumno)
+alumno[1].append(10)
+print(alumno)
+```
+(Ejercicio de paises y su poblacion)
+
+## Diccionarios
+
+Tiene llaves y valores.
+```py
+productos={"manzanas":39, "peras":32, "lechuga":17}
+print(productos)
+```
+para la clave "peras" tenemos asociado el valor entero 32
+
+## Cadena de caracteres
+
+Ejercicio:Realizar la carga por teclado del nombre, edad y altura de dos personas. Mostrar por pantalla el nombre de la persona con mayor altura.
+
+
