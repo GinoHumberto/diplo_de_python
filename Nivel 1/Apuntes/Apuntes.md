@@ -219,4 +219,8 @@ para la clave "peras" tenemos asociado el valor entero 32
 
 Ejercicio:Realizar la carga por teclado del nombre, edad y altura de dos personas. Mostrar por pantalla el nombre de la persona con mayor altura.
 
+### Métodos propios de las cadenas de caracteres.
 
+* upper() : devuelve una cadena de caracteres convertida todos sus caracteres a mayúsculas.
+* lower() : devuelve una cadena de caracteres convertida todos sus caracteres a minúsculas.
+* capitalize() : devuelve una cadena de caracteres convertida a mayúscula solo su primer caracter y todos los demás a minúsculas.
