@@ -224,3 +224,47 @@ Ejercicio:Realizar la carga por teclado del nombre, edad y altura de dos persona
 * upper() : devuelve una cadena de caracteres convertida todos sus caracteres a mayúsculas.
 * lower() : devuelve una cadena de caracteres convertida todos sus caracteres a minúsculas.
 * capitalize() : devuelve una cadena de caracteres convertida a mayúscula solo su primer caracter y todos los demás a minúsculas.
+
+# Clase 12
+
+Tratamiento de archivos de salida
+Existen muchos modos de almacenar datos como son los archivos de texto, archivos binarios, bases de datos etc.
+
+Ej:
+```py
+archi1=open('datos.txt','w') #Archi1 puede llamarse de otra forma, solo es el nombre de la variable. datos es el archivo que estamos abriendo, la 'w' nos deja escrtibir, equivale write
+archi1.write('Hola mundo')
+archi1.close()
+```
+si necesitamos que se cree en otra carpeta podemos indicar el path del mismo:
+```py
+archi1 = open("c:/administracion/datos.txt","w")
+```
+
+Para leer se debe remplazar la 'w' por la 'r'
+```py
+archi1=open("datos.txt","r")
+contenido=archi1.read()
+print(contenido)
+archi1.close()
+```
+
+Para leer contenido del archivo de texto linea a linea:
+```py
+archi1=open("datos.txt","r")
+linea=archi1.readline()
+while linea!='':
+    print(linea, end='')
+    linea=archi1.readline()
+archi1.close()
+# Compactado
+archi1=open("datos.txt","r")
+for linea in archi1:
+print(linea, end='')
+archi1.close()
+```
+
+Se puede utilizar la 'a' en ves de 'w' o 'r' para agregar lineas o datos sin que borre las lineas actuales o anteriores del archivo
+
+Hay otra forma para abrir un archivo para leer y escribir que es 'r+', dejandonos leer y escribir.
+
