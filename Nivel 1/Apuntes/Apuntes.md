@@ -268,3 +268,56 @@ Se puede utilizar la 'a' en ves de 'w' o 'r' para agregar lineas o datos sin que
 
 Hay otra forma para abrir un archivo para leer y escribir que es 'r+', dejandonos leer y escribir.
 
+
+# Clase 13
+Archivo "Biblioteca_estándar_pyhton"
+
+Bibliotecas estandar: **ya viene incorporado** en el programa/sistema, es decir no es necesario utilizar entornos virtuales.Muchas
+Se pueden importar diferentes bibliotecas. 
+Caso Ramdom:
+```py
+import random
+dado1=random.randint(1,6)
+dado2=random.randint(1,6)
+print("Primer dado:",dado1)
+print("Segundo dado:",dado2)
+suma=dado1+dado2
+if suma==7:
+    print("Gano")
+else:
+    print("Perdio")
+```
+
+Podemos solo traer una instruccion de una biblioteca, esto se puede hacer ya que la libreria entera puede ser muy pesada, entonces solo llamamos a lo que vamos a utilizar
+
+```py
+from ramdom import randint
+
+from ramdom import randint, shuffle
+```
+
+Libreria math: es estandar, trae calculos complejos de una calculadora cientifica como raiz.
+ej:
+```py
+from math import sqrt, pow
+valor=int(input("Ingrese un valor entero:"))
+r1=sqrt(valor)
+r2=pow(valor,3)
+print("La raiz cuadrada es",r1)
+print("El cubo es",r2)
+```
+pow es: x raised to the power y
+
+"Generalmente conviene importar librerias antes que realizar el programa uno mismo"
+
+```py
+from math import sqrt as raiz, pow as elevar
+
+valor=int(input("Ingrese un valor entero:"))
+r1=raiz(valor)
+r2=elevar(valor,3)
+print("La raiz cuadrada es",r1)
+print("El cubo es",r2)
+```
+El "as" es el alias, es una forma de poner un nombre más practico para mi o para el desarrollador de la funcion, es decir sqtr ahora se lo puede llamar como raíz.
+
