@@ -92,3 +92,157 @@ empleado1.paga_impuestos()
 
 Recordemos que init se llama solo
 Cuando creo una clase las funciones dentro de la misma quedan entrelazadas.
+
+# Clase 14
+Si queremos llamar al metodo dentro de la clase, Es decir un metodo llama a otro metodo,
+```py
+self.[nombre_del _metodo]
+```
+Ej:
+```py
+class Operacion:
+    def __init__ (self):
+        self.valor1 = int(input('Numero: '))
+        self.valor2 = int(input('Numero: '))
+        self.sumar()
+        self.resta()
+    
+    def sumar(self):
+        suma = self.valor1 + self.valor2
+        print(suma)
+    
+    def resta(self):
+        resta = self.valor1 - self.valor2
+        print(resta)
+    
+
+operacion1 = Operacion()
+```
+
+## POO 2 Colaboración y herencia
+Es un sistema donde las clases interactúa y se comunican
+### Colaboracion:
+Las clases se comunican, es diferente a erencia, ya que no es una clase dentro de otra clase, son dos clases separadas pero que interactuan entre ellas
+```py
+class Cliente:
+
+    def __init__(self,nombre):
+        self.nombre=nombre
+        self.monto=0
+
+    def depositar(self,monto):
+        self.monto=self.monto+monto
+
+    def extraer(self,monto):
+        self.monto=self.monto-monto
+
+    def retornar_monto(self):
+        return self.monto
+
+    def imprimir(self):
+        print(self.nombre,"tiene depositado la suma de",self.monto)
+
+class Banco:
+
+    def __init__(self):
+        self.cliente1=Cliente("Juan")
+        self.cliente2=Cliente("Ana")
+        self.cliente3=Cliente("Diego")
+    
+    def operar(self):
+        self.cliente1.depositar(100)
+        self.cliente2.depositar(150)
+        self.cliente3.depositar(200)
+        self.cliente3.extraer(150)
+
+    def depositos_totales(self):
+        total=self.cliente1.retornar_monto()+self.cliente2.retornar_monto()+self.cliente3.retornar_monto()
+        print("El total de dinero del banco es:",total)
+        self.cliente1.imprimir()
+        self.cliente2.imprimir()
+        self.cliente3.imprimir()
+
+# bloque principal
+banco1=Banco()
+banco1.operar()
+banco1.depositos_totales()
+```
+Podemos ver como la clase Banco, le da a la clase Cliente el nombre del cliente y como la clase banco obtiene lo depositado o extraido de la clase cliente
+
+# Clase 15
+Para cortar una línea en varias líneas en Python podemos encerrar entre paréntesis la condición:
+```py
+if (self.dado1.retornar_valor()==self.dado2.retornar_valor()
+and self.dado1.retornar_valor()==self.dado3.retornar_valor()):
+```
+O agregar una barra al final:
+```py
+if self.dado1.retornar_valor()==self.dado2.retornar_valor() and \
+self.dado1.retornar_valor()==self.dado3.retornar_valor():
+```
+
+## Herencia
+**Puedo crear nuevas clases partiendo de clases existentes**
+Clase padre: Es la que deciende o deriva una clase hija
+Clase hija o subclase: Es la clase descendiente de la otra. Hereda los atributos y los metodos de la clase padre.
+
+ejemplos teóricos de herencia:
+1) Imaginemos la clase Vehículo. Qué clases podrían derivar de ella?
+```
+Vehiculo:
+    a. Colectivo 
+    b. Moto:
+        * Suzuki
+        * Honda 
+    c. Auto:
+        * Ford
+        * Renault 
+```
+Siempre hacia abajo en la jerarquía hay una especialización (las subclases añaden nuevos atributos y métodos).
+
+Ej: Plantear una clase Persona que contenga dos atributos: nombre y edad. Definir como responsabilidades la carga por teclado y su impresión. En el bloque principal del programa definir un objeto de la clase persona y llamar a sus métodos.
+Declarar una segunda clase llamada Empleado que herede de la clase Persona y agregue un atributo sueldo y muestre si debe pagar impuestos (sueldo superior a 3000) También en el bloque principal del programa crear un objeto de la clase Empleado.
+
+```py
+class Persona:
+    
+    def __init__(self):
+        self.nombre=input("Ingrese el nombre:")
+        self.edad=int(input("Ingrese la edad:"))
+    
+    def imprimir(self):
+        print("Nombre:",self.nombre)
+        print("Edad:",self.edad)
+
+class Empleado(Persona): # Aca vemos que dentro de la clase esta nuestra clase "Persona"
+    
+    def __init__(self): #Sigue haciendo referencia a la clase empeado, se llama asi mismo
+        super().__init__() # ACA ESTA LO IMPORTANTE, tenemos el "super". Este init, llama a un metodo de inicializacion de otra clase, es decir persona
+        self.sueldo=float(input("Ingrese el sueldo:"))
+    
+    def imprimir(self):
+        super().imprimir()
+        print("Sueldo:",self.sueldo)
+    
+    def paga_impuestos(self):
+        if self.sueldo>3000:
+            print("El empleado debe pagar impuestos")
+        else:
+            print("No paga impuestos")
+
+# bloque principal
+persona1=Persona()
+persona1.imprimir()
+print("____________________________")
+empleado1=Empleado() 
+empleado1.imprimir()
+empleado1.paga_impuestos()
+```
+
+Aca estoy creando una clase empleado, pero tiene un parametro que es "Persona", por eso  ```class Empleado(Persona):```
+El super es el que indica cuando se hace herencia del parametro de la clase
+
+*~¿Cuando herencia y cuando colaboración?: herencia por ej se usa en robotica, mientras que en colaboración se utiliza en programas con valores que utilizan de otra clase.~*
+La herencia seria como un import
+La colaboracion seria como un import "xxx" from "xxx" 
+

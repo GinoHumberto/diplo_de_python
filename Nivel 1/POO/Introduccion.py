@@ -48,7 +48,7 @@ alumno2.mostrar_estado()
 ########################
 #       __init__       #
 ########################
-
+'''
 class Empleado:
 
     def __init__(self):
@@ -66,6 +66,107 @@ class Empleado:
             print("No paga impuestos")
 
 # bloque principal
+empleado1=Empleado()
+empleado1.imprimir()
+empleado1.paga_impuestos()
+'''
+
+# Metodo llamando metodos
+'''
+class Operacion:
+    def __init__ (self):
+        self.valor1 = int(input('Numero: '))
+        self.valor2 = int(input('Numero: '))
+        self.sumar()
+        self.resta()
+    
+    def sumar(self):
+        suma = self.valor1 + self.valor2
+        print(suma)
+    
+    def resta(self):
+        resta = self.valor1 - self.valor2
+        print(resta)
+    
+
+operacion1 = Operacion()
+'''
+'''
+class Cliente:
+
+    def __init__(self,nombre):
+        self.nombre=nombre
+        self.monto=0
+
+    def depositar(self,monto):
+        self.monto=self.monto+monto
+
+    def extraer(self,monto):
+        self.monto=self.monto-monto
+
+    def retornar_monto(self):
+        return self.monto
+
+    def imprimir(self):
+        print(self.nombre,"tiene depositado la suma de",self.monto)
+
+class Banco:
+
+    def __init__(self):
+        self.cliente1=Cliente("Juan")
+        self.cliente2=Cliente("Ana")
+        self.cliente3=Cliente("Diego")
+    
+    def operar(self):
+        self.cliente1.depositar(100)
+        self.cliente2.depositar(150)
+        self.cliente3.depositar(200)
+        self.cliente3.extraer(150)
+
+    def depositos_totales(self):
+        total=self.cliente1.retornar_monto()+self.cliente2.retornar_monto()+self.cliente3.retornar_monto()
+        print("El total de dinero del banco es:",total)
+        self.cliente1.imprimir()
+        self.cliente2.imprimir()
+        self.cliente3.imprimir()
+
+# bloque principal
+banco1=Banco()
+banco1.operar()
+banco1.depositos_totales()
+'''
+
+# Herencia
+class Persona:
+    
+    def __init__(self):
+        self.nombre=input("Ingrese el nombre:")
+        self.edad=int(input("Ingrese la edad:"))
+    
+    def imprimir(self):
+        print("Nombre:",self.nombre)
+        print("Edad:",self.edad)
+
+class Empleado(Persona):
+    
+    def __init__(self):
+        super().__init__()
+        self.sueldo=float(input("Ingrese el sueldo:"))
+    
+    def imprimir(self):
+        super().imprimir()
+        print("Sueldo:",self.sueldo)
+    
+    def paga_impuestos(self):
+        if self.sueldo>3000:
+            print("El empleado debe pagar impuestos")
+        else:
+            print("No paga impuestos")
+
+# bloque principal
+persona1=Persona()
+persona1.imprimir()
+print("____________________________")
 empleado1=Empleado()
 empleado1.imprimir()
 empleado1.paga_impuestos()
