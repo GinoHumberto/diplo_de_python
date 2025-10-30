@@ -246,3 +246,26 @@ El super es el que indica cuando se hace herencia del parametro de la clase
 La herencia seria como un import
 La colaboracion seria como un import "xxx" from "xxx" 
 
+## Variables de clase
+```py
+class Persona:
+    
+    variable=20
+    
+    def __init__(self,nombre):
+        self.nombre=nombre
+
+# bloque principal
+persona1=Persona("Juan")
+persona2=Persona("Ana")
+persona3=Persona("Luis")
+
+print(persona1.nombre) # Juan
+print(persona2.nombre) # Ana
+print(persona3.nombre) # Luis
+print(persona1.variable) # 20
+Persona.variable=5
+print(persona2.variable) # 5
+print(persona3.variable) # 5 ya que cambio la variable
+```
+
