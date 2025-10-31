@@ -207,68 +207,155 @@ alumnos.menu()
 # 4- Modificación de su teléfono y mail.
 # 5- Finalizar programa.
 
+# class Agenda:
+
+#     def __init__(self):
+#         self.nombre = []
+#         self.telefono = []
+#         self.mail = []
+    
+#     def menu(self):
+#         choice = 0
+#         while choice != 5:
+#             print(' 1- Carga de un contacto en la agenda. \n 2- Listado completo de la agenda. \n 3- Consulta ingresando el nombre de la persona. \n 4- Modificación de su teléfono y mail. \n 5- Finalizar programa.')
+#             print('----------------------------------------')
+#             choice = int(input('¿Qué opción quieres elegir?: '))
+#             if choice == 1:
+#                 self.cargar()
+#             elif choice == 2:
+#                 self.listado()
+#             elif choice == 3:
+#                 self.consulta()
+#             elif choice == 4:
+#                 self.modificar()
+    
+#     def cargar(self):
+#         name = input('Ingresa el nombre de la persona: ')
+#         nombre = name.capitalize()
+#         telefono = input('Ingresa el numero de telefono: ')
+#         mail = input('Ingresa el mail: ')
+#         self.nombre.append(nombre)
+#         self.telefono.append(telefono)
+#         self.mail.append(mail)
+    
+#     def listado(self):
+#         for i in range (len(self.nombre)):
+#             print(f'Persona: {self.nombre[i]} \n Telefono: {self.telefono[i]} \n mail: {self.mail[i]}')
+    
+#     def consulta(self):
+#         print('Ingresa el nombre con mayuscula')
+#         busqueda = input('Ingresa el nombre de la persona que buscas: ')
+#         print('~~~~~~~~~~~~~~~~')
+#         search = busqueda.capitalize()
+#         encontrado = 0
+#         for i in range(len(self.nombre)):
+#             if search == self.nombre[i]:
+#                 print('Lo encontramos, es: ')
+#                 print(f'Persona: {self.nombre[i]} \n Telefono: {self.telefono[i]} \n mail: {self.mail[i]}')
+#                 encontrado = 1
+#         if encontrado == 0:
+#             print('No se encontro dicha persona, intenta de nuevo')
+    
+#     def modificar(self):
+#         print('¿A quien deseas modificar?')
+#         who = input('Ingresa el nombre de la persona ')
+#         for i in range(len(self.nombre)):
+#             if who == self.nombre[i]:
+#                 print('Estos son sus datos actuales: ')
+#                 print(f'Persona: {self.nombre[i]} \n Telefono: {self.telefono[i]} \n mail: {self.mail[i]}')
+#                 print('~~~~~~~~~~~~~~')
+#                 nuevo_telefono = int(input('Ingresa el nuevo telefono: '))
+#                 nuevo_mail = input('Ingresa el nuevo mail')
+#                 self.telefono[i] = nuevo_telefono
+#                 self.mail[i] = nuevo_mail
+
+# agenda = Agenda()
+# agenda.menu()
+
+# Corrección
+#--------------------------------------------------------------------------------------------------#
+
+class Persona:
+    def __init__(self,nombre,telefono,mail):
+        self._nombre = nombre   # el _ antes del nombre del atributo es una buena practica [ver 1]
+        self._telefono = telefono
+        self._mail = mail
+
+    # [1]: Los guiones "_" denotan que un atributo es privado (no se puede accdeder desde afuera de la clase).
+    #   Acceder a estos atributos privados es como entrar a la casa de alguien a preguntarle su nombre (sin permiso)
+    #   Entonces, lo correcto es hacer los metodos "getter" que como el nombre dice, te permiten acceder a atributos
+    #   privados expuestos a propósito, como el de abajo 
+
+    @property
+    def nombre(self):
+        return self._nombre
+
+    def modificar(self, new_mail, new_tel):
+        self._telefono = new_tel
+        self._mail = new_mail
+
+    def __str__(self):
+        return f'Nombre: {self._nombre}; Telefono: {self._telefono}; Mail: {self._mail}' #Conversion de persona a str
+
 class Agenda:
-
     def __init__(self):
-        self.nombre = []
-        self.telefono = []
-        self.mail = []
-    
-    def menu(self):
-        choice = 0
-        while choice != 5:
-            print(' 1- Carga de un contacto en la agenda. \n 2- Listado completo de la agenda. \n 3- Consulta ingresando el nombre de la persona. \n 4- Modificación de su teléfono y mail. \n 5- Finalizar programa.')
-            print('----------------------------------------')
-            choice = int(input('¿Qué opción quieres elegir?: '))
-            if choice == 1:
-                self.cargar()
-            elif choice == 2:
-                self.listado()
-            elif choice == 3:
-                self.consulta()
-            elif choice == 4:
-                self.modificar()
-    
-    def cargar(self):
-        name = input('Ingresa el nombre de la persona: ')
-        nombre = name.capitalize()
-        telefono = input('Ingresa el numero de telefono: ')
-        mail = input('Ingresa el mail: ')
-        self.nombre.append(nombre)
-        self.telefono.append(telefono)
-        self.mail.append(mail)
-    
-    def listado(self):
-        for i in range (len(self.nombre)):
-            print(f'Persona: {self.nombre[i]} \n Telefono: {self.telefono[i]} \n mail: {self.mail[i]}')
-    
-    def consulta(self):
-        print('Ingresa el nombre con mayuscula')
-        busqueda = input('Ingresa el nombre de la persona que buscas: ')
-        print('~~~~~~~~~~~~~~~~')
-        search = busqueda.capitalize()
-        encontrado = 0
-        for i in range(len(self.nombre)):
-            if search == self.nombre[i]:
-                print('Lo encontramos, es: ')
-                print(f'Persona: {self.nombre[i]} \n Telefono: {self.telefono[i]} \n mail: {self.mail[i]}')
-                encontrado = 1
-        if encontrado == 0:
-            print('No se encontro dicha persona, intenta de nuevo')
-    
-    def modificar(self):
-        print('¿A quien deseas modificar?')
-        who = input('Ingresa el nombre de la persona ')
-        for i in range(len(self.nombre)):
-            if who == self.nombre[i]:
-                print('Estos son sus datos actuales: ')
-                print(f'Persona: {self.nombre[i]} \n Telefono: {self.telefono[i]} \n mail: {self.mail[i]}')
-                print('~~~~~~~~~~~~~~')
-                nuevo_telefono = int(input('Ingresa el nuevo telefono: '))
-                nuevo_mail = input('Ingresa el nuevo mail')
-                self.telefono[i] = nuevo_telefono
-                self.mail[i] = nuevo_mail
+        self._contactos = {}
 
-agenda = Agenda()
-agenda.menu()
-        
+    def add(self,persona:Persona): # Acá le decimos que persona (la variable) es de tipo Persona (la clase)
+        self._contactos[persona.nombre] = persona
+
+    def consulta(self, nombre):
+        return self._contactos.get(nombre) # es como self._contactos[nombre] pero no falla si no existe la key del diccionario _contactos
+
+    def modificar(self, nombre): # el nombre debe existir en el diccionario
+        persona = self._contactos.get(nombre)
+        if persona:
+            new_tel = input('Nuevo telefono: ')
+            new_mail = input('Nuevo mail: ')
+            persona.modificar(new_tel,new_mail)
+
+    def __str__(self):
+        agenda = 'Agenda\n'
+        for nombre in self._contactos:  # Agenda puede acceder a contactos porque está en su propia casa
+            agenda += str(self._contactos[nombre]) + '\n'
+        return agenda
+
+def crear_persona():
+    nombre = input('Nombre: ')
+    telefono = input('Telefono: ')
+    mail = input('Mail: ')
+    return Persona(
+        nombre=nombre,
+        telefono=telefono,
+        mail=mail
+        )
+
+def menu(agenda:Agenda):
+    options = '''
+     1- Carga de un contacto en la agenda. \n 
+     2- Listado completo de la agenda. \n 
+     3- Consulta ingresando el nombre de la persona. \n 
+     4- Modificación de su teléfono y mail. \n 
+     5- Finalizar programa. \n
+     ----------------------------------------
+    '''
+    choice = 0
+    while choice != 5:
+        print(options)
+        choice = int(input('¿Qué opción quieres elegir?: '))
+        if choice == 1:
+            persona = crear_persona()
+            agenda.add(persona)
+        elif choice == 2:
+            print(agenda)
+        elif choice == 3:
+            nombre = input('Nombre del contacto: ')
+            contacto = agenda.consulta(nombre)
+            print(contacto)
+        elif choice == 4:
+            nombre = input('Nombre del contacto: ')
+            agenda.modificar(nombre)
+
+# Esta es la parte más importante del código
+agenda = Agenda()   # Creamos una agenda vacía
+menu(agenda)        # Llamamos al menu con la agenda de arriba
