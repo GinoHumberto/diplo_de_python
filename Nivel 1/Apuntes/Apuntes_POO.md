@@ -269,3 +269,143 @@ print(persona2.variable) # 5
 print(persona3.variable) # 5 ya que cambio la variable
 ```
 
+# Clase 16
+
+## Variables de clase
+### Variables tipo lista
+ej:
+```py
+class Cliente:
+    suspendidos=[]
+
+    def __init__(self,codigo,nombre): # Toma los atributos de cliente
+        self.codigo=codigo
+        self.nombre=nombre
+
+    def imprimir(self):
+        print("Codigo:",self.codigo)
+        print("Nombre:",self.nombre)
+        self.esta_suspendido()
+
+    def esta_suspendido(self):
+        if self.codigo in Cliente.suspendidos:
+            print("Esta suspendido")
+        else:
+            print("No esta suspendido")
+        print("_____________________________")
+
+    def suspender(self):
+        Cliente.suspendidos.append(self.codigo)
+
+# bloque principal
+cliente1=Cliente(1,"Juan")
+cliente2=Cliente(2,"Ana")
+cliente3=Cliente(3,"Diego")
+cliente4=Cliente(4,"Pedro")
+
+cliente3.suspender() # Aca suspendo
+cliente4.suspender()
+
+cliente1.imprimir()
+cliente2.imprimir()
+cliente3.imprimir()
+cliente4.imprimir()
+
+print(Cliente.suspendidos)
+```
+
+## Herencia
+```py
+class Operacion:
+
+    def operar(self):
+        pass
+
+class xx:
+    
+    def xx():
+        ''
+```
+Operar va a depender de otras clases. 
+El pass esta vacio (es un metodo que sirve para esperar algo)
+Operar espera algo, que obtiene lo que espera de otras clases, en el ejemplo completo espera el resultado, el cual proviene del ingreso de otras clases
+
+El pass es el nexo, es el super, de modo que cuando pongo el pass omito colocar el "super" en las otras clases.
+
+Si no coloco ``pass`` o ``super`` la clase xx no va a poder acceder a los datos cargados en operación
+
+## Metodo __str__
+Metodo especial que nos permite pasarle un objeto a la funcion y la convierte en string
+ej:
+```py
+class Persona:
+d   ef __init__(self,nom,ape):
+        self.nombre=nom
+        self.apellido=ape
+
+persona1=Persona("Jose","Rodriguez")
+print(persona1)
+
+#Nos muestra algo parecido a esto:
+#<__main__.Persona object at 0x03E99C90>
+```
+
+Si usamos el metodo __str__
+```py
+class Persona:
+    
+    def __init__(self,nom,ape):
+        self.nombre=nom
+        self.apellido=ape
+    
+    def __str__(self):
+        cadena=self.nombre+","+self.apellido
+        return cadena
+
+persona1=Persona("Jose","Rodriguez")
+print(persona1)
+```
+EL metodo __str__ se llama solo al igual que __init__
+
+En este caso persona 1 llama automáticamente a la carga del init y a la cadena o conversion del objeto a cadena.
+(Suele utilizarse para dar valores para base de datos)
+
+## Redefinición de los operadoes matemáticos con objetos
+Para el operador +:
+```py
+__add__(self,objeto2)
+```
+Para el operador -:
+```py
+__sub__(self,objeto2)
+```
+Para el operador *:
+```py
+__mul__(self,objeto2)
+```
+Para el operador //:
+```py
+__floordiv__(self,objeto2)
+```
+Para el operador /:
+```py
+__truediv__(self,objeto2)
+```
+
+Ej:
+```py
+class Cliente:
+    
+    def __init__(self,nombre,monto):
+        self.nombre=nombre
+        self.monto=monto
+    
+    def __add__(self,objeto2):
+        s=self.monto+objeto2.monto
+        return s
+
+cli1=Cliente('Ana',1200)
+cli2=Cliente('Luis',1500)
+print("El total depositado por los dos clientes es")
+print(cli1+cli2)
+```
