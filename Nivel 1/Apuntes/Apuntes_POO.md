@@ -409,3 +409,83 @@ cli2=Cliente('Luis',1500)
 print("El total depositado por los dos clientes es")
 print(cli1+cli2)
 ```
+
+# Clase 17
+## Redefinición de los operadores relacionales con objetos
+Para el operador ==:
+```py
+__eq__(self,objeto2)
+```
+Para el operador !=:
+```py
+__ne__(self,objeto2)
+```
+Para el operador >:
+```py
+__gt__(self,objeto2)
+```
+Para el operador >=:
+```py
+__ge__(self,objeto2)
+```
+Para el operador <:
+```py
+__lt__(self,objeto2)
+```
+Para el operador <=:
+```py
+__le__(self,objeto2)
+```
+
+Es util para operaciones repetidas, pen el caso que sea uso especifico es mejor utilizar los ya conocidos.
+
+## ``__repr__``
+Es un metodo alternativo a str, pero es diferente.
+La diferencia es que repr tiene una cadena dentro de otra cadena.
+```py
+cadena = 'cadena'
+str(cadena) # 'cadena'
+repr(cadena) # "'cadena'"
+``` 
+str devuelve cadena de texto. str convierte un valor traido de una variable.
+repr devuelve el tipo de valor ademas de mostrarlo
+
+str: es para el usuario final, facil de leer. Cadena informal de dato.
+repr: determina el tipo de dato oficial. Tipo de objeto.
+
+Ej:
+```py
+class Clase():
+    
+    def __init__(self, valor):
+        self.valor = valor
+    
+    def __repr__(self):
+    return f'{self.__class__.__name__}({repr(self.valor)})'
+
+clase = Clase('uno')
+str(clase) # "Clase('uno')"
+repr(clase) # "Clase('uno')"
+```
+ No hice un buen ejemplo xD
+
+repr es interes para el depurador o debugeador, no para nosotros.
+
+## F strings
+ejemplo:
+```py
+valor1=int(input("Ingrese primer valor:"))
+valor2=int(input("Ingrese segundo valor:"))
+suma=valor1+valor2
+print(f"La suma de {valor1} y {valor2} es {suma}")
+```
+Ej:
+Definir una lista con 5 valores flotantes con distintas cantidades de decimales. Mostrar los números
+solo con dos decimales.
+
+```py
+lista=[30.195, 400.2, 20.5555, 18.34, 67.0]
+for elemento in lista:
+    print(f"{elemento:10.2f}")# El 10 deja 10 caracteres de espacio, el .2f muestra una cantidad de decimales
+```
+

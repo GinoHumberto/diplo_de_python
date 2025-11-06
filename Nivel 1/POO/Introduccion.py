@@ -279,15 +279,20 @@ empleado1.paga_impuestos()
 
 
 ######### METODO STR ###############
-class Persona:
-    
-    def __init__(self,nom,ape):
-        self.nombre=nom
-        self.apellido=ape
-    
-    def __str__(self):
-        cadena=self.nombre+","+self.apellido
-        return cadena
-        
-persona1=Persona("Jose","Rodriguez")
-print(persona1)
+#class Persona:
+#    
+#    def __init__(self,nom,ape):
+#        self.nombre=nom
+#        self.apellido=ape
+#    
+#    def __str__(self):
+#        cadena=self.nombre+","+self.apellido
+#        return cadena
+#        
+#persona1=Persona("Jose","Rodriguez")
+#print(persona1)
+
+############ F string ################
+lista=[30.195, 400.2, 20.5555, 18.34, 67.0]
+for elemento in lista:
+    print(f"{elemento:10.2f}") # El 10 deja 10 caracteres de espacio, el .2f muestra una cantidad de decimales
