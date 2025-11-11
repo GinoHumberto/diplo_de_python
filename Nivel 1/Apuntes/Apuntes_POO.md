@@ -489,3 +489,89 @@ for elemento in lista:
     print(f"{elemento:10.2f}")# El 10 deja 10 caracteres de espacio, el .2f muestra una cantidad de decimales
 ```
 
+# Clase 18 
+## Leer pdf:
+**Acoplamiento, Abstracción**
+
+**cohesión**: Grado de relacion entre los elementos de un modulo
+
+**Encapsulamiento**: ocultar los atributos o elementos de una clase
+
+**Polimorfismo**:
+"Muchas formas". Significa que los objetos pueden tomar diferentes formas. Toman diferentes formas segun como sean accedidos.
+duck typing: Frase "Si camina como pato, habla como pato, es un pato". Si se parece una cosa es lo que es. Es el tipo del objeto determinado por sus metodos, atributos,etc.
+Esto es importante porque basicamente si se parece a un objeto es lo que es.
+El polimofrmismo es un codigo que puede ser heredado de otro, pero en la clase se va a comportar de una forma diferente.
+por ej:
+```py
+class Animal:
+    
+    def hablar(self):
+        pass # hace nexo
+
+class Perro(Animal):
+    def hablar(self):
+        print("Guau!")
+
+class Gato(Animal):
+    def hablar(self):
+        print("Miau!")
+
+for animal in Perro(), Gato():
+animal.hablar()
+# Guau!
+# Miau!
+```
+Como se puede ver la clase animal, el metodo hablar depende de cada clase
+
+Define a las clases por sus metodos
+
+podríamos decir que animar.hablar() tomaría la forma de perro.hablar() y gato.hablar()
+
+## Decoración
+Un decorador es una funcion que toma otra función como argumento, le añade funcionalidad y devuelve esa nueva función.
+
+Ventajas: Es Reusable, legible y permite el mantenimiento rapido.
+
+Ejemplo Práctico: Decorador Simple
+```py
+def decorador_saludo(funcion):
+    def envoltura():
+        print("¡Hola! Antes de ejecutar la función")
+        funcion()
+        print("¡Adiós! Después de ejecutar la función")
+    return envoltura
+
+@decorador_saludo # hace referencia a la funcion de arriba
+def saludar():
+    print("Estoy saludando desde la función principal") # Funcion Principal
+
+saludar()
+```
+Salida:
+¡Hola! Antes de ejecutar la función
+Estoy saludando desde la función principal
+¡Adiós! Después de ejecutar la función
+
+Como **saludar() está decorada por decorador saludo(), entonces ejecuta secuencialmente lo que dice el decorador**
+
+Explicacion:
+```py
+def mi_primer_decorador(func):
+    # Este es un decorador básico que imprime un mensaje antes y después de la ejecución de la función.
+    def envoltura():
+        print("Antes de llamar a la función.")
+        func() # Llama a la función original que fue pasada a
+    'mi_primer_decorador'
+        print("Después de llamar a la función.")
+    return envoltura # Retorna la función 'envoltura'
+
+# Ahora, definimos una función y la "decoramos"
+@mi_primer_decorador
+def saludar():
+    print("¡Hola desde la función saludar!")
+
+# Llamamos a la función decorada
+saludar()
+```
+

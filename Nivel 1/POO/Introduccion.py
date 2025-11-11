@@ -293,6 +293,20 @@ empleado1.paga_impuestos()
 #print(persona1)
 
 ############ F string ################
-lista=[30.195, 400.2, 20.5555, 18.34, 67.0]
-for elemento in lista:
-    print(f"{elemento:10.2f}") # El 10 deja 10 caracteres de espacio, el .2f muestra una cantidad de decimales
+# lista=[30.195, 400.2, 20.5555, 18.34, 67.0]
+# for elemento in lista:
+#     print(f"{elemento:10.2f}") # El 10 deja 10 caracteres de espacio, el .2f muestra una cantidad de decimales
+
+############ Decorador ################
+def decorador_saludo(funcion):
+    def envoltura():
+        print("¡Hola! Antes de ejecutar la función")
+        funcion()
+        print("¡Adiós! Después de ejecutar la función")
+    return envoltura
+
+@decorador_saludo
+def saludar():
+    print("Estoy saludando desde la función principal")
+    
+saludar()
