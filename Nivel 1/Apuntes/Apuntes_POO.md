@@ -122,7 +122,7 @@ operacion1 = Operacion()
 ## POO 2 Colaboración y herencia
 Es un sistema donde las clases interactúa y se comunican
 ### Colaboracion:
-Las clases se comunican, es diferente a erencia, ya que no es una clase dentro de otra clase, son dos clases separadas pero que interactuan entre ellas
+Las clases se comunican, es diferente a herencia, ya que no es una clase dentro de otra clase, son dos clases separadas pero que interactuan entre ellas
 ```py
 class Cliente:
 
