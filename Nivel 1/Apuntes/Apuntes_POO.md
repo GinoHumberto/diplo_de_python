@@ -575,3 +575,76 @@ def saludar():
 saludar()
 ```
 
+# Clase 19
+## Decoradores 
+**Property**:
+Es un decorador especial que convierte un metodo en un atributo.
+atributos privados, son:
+self._edad # aca lo importante es " _ ", ya que eso nos dice que es privado
+
+```py
+class Persona:
+    
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self._edad = edad
+    
+    @property
+    def edad(self):
+        """Getter para la edad"""
+        return self._edad
+    
+    @edad.setter
+        def edad(self, valor):
+        """Setter para la edad"""
+        if valor < 0:
+            raise ValueError("La edad no puede ser negativa")
+        self._edad = valor
+    
+    @edad.deleter
+        def edad(self):
+        """Deleter para la edad"""
+        print("Eliminando edad...")
+        del self._edad
+
+# Uso
+persona = Persona("Ana", 25)
+print(persona.edad) # 25 - ¡Se usa como atributo!
+persona.edad = 30 # ¡Se asigna como atributo!
+print(persona.edad) # 30
+
+# Esto daría error:
+# persona.edad = -5 # ValueError: La edad no puede ser negativa
+```
+
+Porque se usa " _ ". En python no existe la encapsulación estricta como en otros lenguajes. En python para eso se puede utilizar una "Convencion de nombre". Es decir si un atributo no le pongo " _ " se considera publico.
+
+El publico se puede utilizar libremente fuera de la clase.
+
+¿Qué es @valor.setter?
+```py
+@valor.setter
+    def valor(self, nuevo_valor):
+        if nuevo_valor >=1 and nuevo_valor <= 6:
+            self._valor = nuevo_valor
+        else:
+            raise ValueError("Error: El valor del dado debe estar entre 1 y 6.")
+```
+En Python, cuando definís una propiedad con @property, por defecto esa propiedad es solo de lectura (o sea, podés acceder al valor pero no modificarlo), nos daría error:
+```dado1.valor = 3```
+Si querés permitir la escritura controlada de ese atributo, usás el decorador @< nombre >.setter, donde < nombre > debe coincidir con el de la propiedad:
+```py
+@property
+    def valor(self):
+        return self._valor
+
+@valor.setter
+    def valor(self, nuevo_valor):
+        if nuevo_valor >=1 and nuevo_valor <= 6:
+            self._valor = nuevo_valor
+    else:
+        raise ValueError("Error: El valor del dado debe estar entre 1 y 6.")
+```
+Con @valor.setter podemos validar que el dato a almacenar en el atributo sea válido, logramos tener una clase más robusta.
+Debe quedar claro que la propiedad se llama valor y el atributo _valor.
+
