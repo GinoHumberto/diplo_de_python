@@ -299,14 +299,32 @@ class Mesa:
                     self._pedidos.append(pedido)
                     self._cuenta += plato.precio
                     pedidos += 1
-                else: 
-                    print('Algo salio mal, intenta de nuevo')
         print(f'El costo va a ser de {self._cuenta} y los platos pedidos son: {self._pedidos}')
 
     @property
     def cuenta(self):
         return self._cuenta
     
+class Restaurante:
+
+    def __init__(self):
+        self._mesas = 6
+        self._ingresos = 0
+        self._clientes = 0
+
+    def asignacion_mesa(self):
+        personas_mesa = 4
+        q_mesas = 1
+        while ingreso_cliente() > personas_mesa:
+            personas_mesa += 4
+            q_mesas += 1
+        self.mesas - q_mesas
+        
+    def ingreso_cliente(self):
+        q_clientes = int(input('¿Cuantos son?\n'))
+        self.clientes += q_clientes
+        
+
 plato = Carta()
 plato.agregar_plato()
 plato.agregar_plato()
@@ -314,3 +332,6 @@ plato.ver_carta()
 
 mesa1 = Mesa()
 mesa1.hacer_pedido(plato)
+
+
+# TENGO Q MEJORARLO, FALTA CODIGO Y EXPANDIRLO MÁS, PERO PARA ESO NECESITO HACERLO POR MODULOS
