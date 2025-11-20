@@ -1,4 +1,4 @@
-# Clase 19
+# Clase 20
 ## Base de SQL
 Imaginemos una plantilla de excel. Cada cuadro se llama campo. Un campo puede tener un titulo (un contenido).
 Por ej 
@@ -116,4 +116,27 @@ conexion.close()
 # Tarea para jueves
 Traer un ejemplo donde pueda modificar los datos y uno donde se tenga que eliminar
 leer: https://docs.python.org/3/library/dbm.html#module-dbm.sqlite3
+
+# Clase 21
+## Introduccion a la ciencia de datos
+Es la disciplina que combina programación, estadística y conocimiento del dominio para extraer valor accionable a partir de datos.
+
+Es la integracion de utilizar herramientas para convertir datos en decisiones medibles.
+
+#### IMPORTANTE OBJETIVO DE CIENCIA DE DATOS E IA
+__Describir__: entender qué ocurrió (métricas, tendencias, segmentos).
+
+__Diagnosticar__: explicar por qué ocurrió (correlaciones, factores causales plausibles).
+
+__Predecir__: estimar qué puede ocurrir (modelos supervisados).
+
+__Prescribir__: recomendar qué hacer (optimización, simulación, reglas de decisión).
+
+__Monitorear__: seguir el desempeño y detectar desvíos (tableros, alertas).
+
+__Mejorar__: cerrar el ciclo con experimentación (A/B testing, iteración del modelo).
+
+
+
+
 
