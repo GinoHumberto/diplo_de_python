@@ -137,6 +137,12 @@ __Monitorear__: seguir el desempeño y detectar desvíos (tableros, alertas).
 __Mejorar__: cerrar el ciclo con experimentación (A/B testing, iteración del modelo).
 
 
+# Clase 22
 
+## Instalación de Xampp (importante instalar)
 
+__IMPORTANTE__: Instalar en un entorno virtual
 
+Descargarse una version mas vieja (que venga con mySQL) Recomendacion: 5.6.XX Ej: 5.6.40 <-
+
+Clase basada en Xampp
