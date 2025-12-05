@@ -146,3 +146,67 @@ __IMPORTANTE__: Instalar en un entorno virtual
 Descargarse una version mas vieja (que venga con mySQL) Recomendacion: 5.6.XX Ej: 5.6.40 <-
 
 Clase basada en Xampp
+
+# Clase 23
+
+Ver si instalar jupyter
+
+Librerias que se van a utilizar:
+
+__numpy__: libreria para calculo numérico eficiente, trabaja con matrices.
+Ej:
+```py
+import numpy as np
+
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+print("Suma:", a + b)
+print("Producto punto:", np.dot(a, b))
+```
+
+__pandas__: Para series y dataframe(permite manipular o incorporar datos de diferentes origenes y transformarlos una ves analizados.)
+Ej:
+```py
+import pandas as pd
+
+# Crear un DataFrame
+data = {
+"Nombre": ["Ana", "Luis", "Carla"],
+"Edad": [23, 30, 27],
+"Ciudad": ["Córdoba", "Rosario", "Mendoza"]
+}
+df = pd.DataFrame(data)
+print(df)
+print(df.describe()) # Estadísticas básicas
+```
+
+__Matplotlib__: Permite visualizar, crea graficos.
+Ej:
+```py
+import matplotlib.pyplot as plt # Aca utilizamos pyplot, por eso el .pyplot, es lo mismo que usar "from matplotlib import pyplot"
+
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 6, 8, 10]
+plt.plot(x, y, marker="o")
+plt.title("Gráfico simple")
+plt.xlabel("Eje X")
+plt.ylabel("Eje Y")
+plt.show()
+```
+
+__scikit-learn__: Incluye algoritmos listos para regresión, clasificación, clustering y herramientas para evaluar modelos.
+Ej:
+```py
+from sklearn.linear_model import LinearRegression
+
+import numpy as np
+# Datos ficticios
+x = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
+y = np.array([2, 4, 6, 8, 10])
+modelo = LinearRegression()
+modelo.fit(x, y)
+print("Pendiente:", modelo.coef_)
+print("Intersección:", modelo.intercept_)
+print("Predicción para 6:", modelo.predict([[6]])[0])
+```
