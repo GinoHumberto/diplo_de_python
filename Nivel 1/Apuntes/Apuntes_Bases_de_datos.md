@@ -210,3 +210,185 @@ print("Pendiente:", modelo.coef_)
 print("Intersección:", modelo.intercept_)
 print("Predicción para 6:", modelo.predict([[6]])[0])
 ```
+
+# Clases x
+
+# Clase 27
+
+indexacuin y slicing en numpy
+pdf numpy3
+
+caso 3d
+```py
+arr3d = np.array([[[1,2][3,4]][[5,6][7,8]]])
+print(arr3d)
+print(arr3d[0, 1, 1]) #Se imprime del primer bloque, segunda fila, segunda columna que es:4
+#Para ver el bloque completo:
+print(arr3d[1, :, :]) # segundo bloque que seria [[5,6][7,8]]
+```
+el slicing es sectorizar un dato, puede ser tanto particular como tambien un grupo
+
+
+__numpy4.pdf__:
+
+4. Operaciones básicas con array
+```py
+import numpy as np
+
+a = np.array([1, 2, 3, 4])
+b = np.array([10, 20, 30, 40]) # Tanto a como b son vectores
+
+print("Suma:", a + b) # [11 22 33 44]
+print("Resta:", b - a) # [ 9 18 27 36]
+print("Multiplicación:", a * b) # [ 10 40 90 160]
+print("División:", b / a) # [10. 10. 10. 10.]
+print("Potencia:", a ** 2) # [ 1 4 9 16]
+```
+Aclaración: Numpy se suele utilizar con grandes volumenes de datos, ya que hace operaciones en manera simultanea, mientras que de forma normal (con for) es ciclica
+
+__broadcasting__:
+Permite operar entre arrays de diferentes tamaños y formas
+Ejemplo,sumar un escalar a un array:
+```py
+arr = np.array([1, 2, 3, 4])
+print(arr + 5) # [6 7 8 9]
+```
+operacion entre dimensiones diferentes:
+```py
+mat = np.array([[1, 2, 3],
+[4, 5, 6]])
+vec = np.array([10, 20, 30])
+print(mat + vec)
+
+# [[11 22 33]
+# [14 25 36]]
+```
+# Clase 28
+
+numpy5: ARCHIVO MÁS IMPORTANTE O MÁS UTILIZADO
+
+División de arrays
+
+_Transposición y permutacion de ejes_:
+es la transpuesta de una matriz
+```py
+import numpy as np
+
+mat = np.array([[1, 2, 3],
+[4, 5, 6]])
+print("Matriz original:\n", mat)
+print("Transpuesta:\n", mat.T)
+```
+
+__Selección y filtrado de datos__:
+comentario: En el resoso es importante agarrarle más la mano a POO
+Consiste en aplicar una condición lógica sobre un array. El resultado es otro array con valores True/False que usamos para filtrar.
+
+```py
+import numpy as np
+
+arr = np.array([10, 20, 30, 40, 50])
+
+# Crear un filtro booleano
+filtro = arr > 25
+print("Filtro booleano:", filtro)
+
+# Aplicar filtro al array
+print("Elementos mayores a 25:", arr[filtro])
+# Salida:
+Filtro booleano: [False False True True True]
+Elementos mayores a 25: [30 40 50]
+```
+Comentario: Este tipo de filtro, se usa mucho para tomar datos
+
+_Mascaras_
+Máscara simple
+```py
+arr = np.arange(1, 11) # [1 2 3 4 5 6 7 8 9 10]
+mascara = arr % 2 == 0 # Números pares
+print("Máscara:", mascara)
+print("Números pares:", arr[mascara])
+
+# Salida:
+Máscara: [False True False True False True False True False True]
+Números pares: [ 2 4 6 8 10]
+```
+
+Máscara combinada
+Podemos combinar condiciones con operadores lógicos: *&* (AND), *| (no '/')* (OR) y *~* (NOT).
+```py
+# Seleccionar números mayores a 3 y menores a 8
+arr = np.arange(1, 11)
+mascara = (arr > 3) & (arr < 8)
+print("Condición (3 < arr < 8):", arr[mascara])
+
+#Salida:
+Condición (3 < arr < 8): [4 5 6 7]
+```
+
+__Filtrado condicional con np.where__
+np.where devuelve los índices donde se cumple una condición.
+_Obtener índices_:
+```py
+arr = np.array([5, 10, 15, 20, 25])
+indices = np.where(arr > 12)
+print("Índices de elementos > 12:", indices)
+print("Elementos:", arr[indices])
+
+#Salida:
+Índices de elementos > 12: (array([2, 3, 4]),)
+Elementos: [15 20 25]
+```
+_If vectorizado_
+```py
+# Podemos usar np.where(condición, valor_si_verdadero, valor_si_falso).
+arr = np.array([5, 10, 15, 20, 25])
+
+# Si el elemento es mayor a 15 "Alto", si no "Bajo"
+resultado = np.where(arr > 15, "Alto", "Bajo")
+print("Clasificación:", resultado)
+
+# Salida:
+Clasificación: ['Bajo' 'Bajo' 'Bajo' 'Alto' 'Alto']
+```
+### Estadísticas y funciones de agregación
+__Mínimo y máximo__
+Con np.min() y np.max() obtenemos el valor más bajo y más alto de un array.
+```py
+import numpy as np
+
+arr = np.array([5, 12, 7, 20, 15])
+print("Mínimo:", np.min(arr)) # 5
+print("Máximo:", np.max(arr)) # 20
+
+# También existen los métodos👉 .min() y .max() que funcionan igual que es de python base:
+print("Mínimo (método):", arr.min())
+print("Máximo (método):", arr.max())
+```
+Ver media y mediana, desviacion y suma y productos
+
+__Numpy6__ (Es importante, pero aun no se va a ver en profundidad, recomendable ver de todos modos)
+
+__Numpy7__
+_Generación de números aleatorios ( np.random )_
+Existen múltiples formas de generar números aleatorios:
+a. Un número aleatorio entre 0 y 1 ( random.rand )
+```py
+import numpy as np
+print("Número aleatorio [0,1):", np.random.rand())
+```
+
+_Distribuciones_
+Distribución uniforme ( np.random.uniform )
+Genera valores entre un rango [a, b) con probabilidad uniforme.
+```py
+arr = np.random.uniform(0, 10, size=5)
+print("Distribución uniforme [0,10):", arr)
+```
+
+Distribución normal o gaussiana ( np.random.normal )
+Muy utilizada en estadística y machine learning.
+```py
+arr = np.random.normal(loc=0, scale=1, size=10)
+print("Distribución normal (media=0, std=1):", arr)
+```

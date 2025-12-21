@@ -56,3 +56,39 @@ for fila in cursor:
     print(fila)
 
 conexion.close()
+
+# ---------------------------------------------------------- #
+
+# Crea un programa que:
+#     Cree una base de datos llamada banco.db.
+#     Tenga una tabla llamada cuentas con dos columnas: titular (texto) y saldo (número).
+#     Insertar un registro manualmente.
+#     Consultar ese registro y mostrarlo en pantalla.
+
+import sqlite3
+
+conexion = sqlite3.connect(banco.db)
+
+cursor = conexion.cursor()
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS cuentas (
+        titular TEXT,
+        saldo REAL
+    )
+''')
+
+nombre = None
+dinero = None
+
+cursor.execute('INSERT INTO cuentas VALUES (?, ?)'), (nombre, dinero)
+
+conexion.commit()
+
+cursor.execute('SELECT * FROM cuentas')
+
+filas = cursor.fetchone()
+
+print(f"Titular: {fila[0]} - Saldo: {fila[1]}")
+
+conexion.close()
