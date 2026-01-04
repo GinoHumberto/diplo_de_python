@@ -1,4 +1,3 @@
-
 class Asiento:
 
     def __init__(self):
@@ -6,4 +5,7 @@ class Asiento:
     
     def ocupar_asiento(self):
         self.__libre = False
-        
+
+    @property
+    def asiento_libre(self):
+        return self.__libre

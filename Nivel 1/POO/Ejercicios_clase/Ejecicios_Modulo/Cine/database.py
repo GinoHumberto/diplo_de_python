@@ -3,40 +3,58 @@ import sqlite3
 class Database:
 
     def __init__(self):
-        self.__conexion = sqlite3.connect('Bichopolis.db')
-        self.__cursor = self.__conexion.cursor()
-        self.__cursor.execute("PRAGMA foreign_keys = ON")
-
-        self.__tabla_peliculas = self.__cursor.execute(
+        self.conexion = sqlite3.connect('Bichopolis.db')
+        self.cursor = self.conexion.cursor()
+        self.cursor.execute("PRAGMA foreign_keys = ON")
+        
+        # CREACION DE TABLAS
+        tabla_peliculas = self.cursor.execute(
             '''CREATE TABLE IF NOT EXISTS peliculas (
             sala_id INTEGER PRIMARY KEY AUTOINCREMENT, 
             pelicula TEXT UNIQUE, genero TEXT)'''
         )
-        self.__tabla_ventas = self.__cursor.execute(
+
+        tabla_ventas = self.cursor.execute(
             '''CREATE TABLE IF NOT EXISTS ventas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             pelicula TEXT, fecha TEXT DEFAULT CURRENT_TIMESTAMP, 
             FOREIGN KEY (pelicula) REFERENCES peliculas(pelicula))'''
         )
         
-    def agregar_pelicula(self, nombre, genero):
-        self.__cursor.execute(
-            '''INSERT INTO peliculas (pelicula, genero) VALUES (?, ?)''', (nombre, genero)
-        )
-        self.__conexion.commit()
+    def agregar_pelicula(self, pelicula, genero):
+        self.cursor.execute(
+            'INSERT INTO peliculas (pelicula, genero) VALUES (?, ?)', (pelicula, genero)
+            )
+        self.conexion.commit()
     
-    def registrar_venta(self, nombre):
-        self.__cursor.execute(
-            '''INSERT INTO ventas (pelicula) VALUES (?)''', (nombre, )
+    def cambiar_pelicula(self, pelicula_vieja, pelicula, genero):
+        self.cursor.execute(
+            '''UPDATE peliculas
+            SET pelicula = (?), genero = (?)
+            WHERE pelicula = ?''', (pelicula, genero, pelicula_vieja)
         )
-        self.__conexion.commit()
+        self.conexion.commit()
 
-    @property
-    def devolver_sala(self, pelicula):
-        self.__cursor.execute(
-            'SELECT sala_id, pelicula FROM peliculas WHERE pelicula = ?' (pelicula, )
+    def mostrar_peliculas_disponibles(self):
+        peliculas_disponibles = self.cursor.execute(
+            'SELECT pelicula FROM peliculas'
         )
-        if self.__cursor.fetchone():
-            return self.__cursor.fetchone()[0]
-        else:
-            return None
+        return peliculas_disponibles
+
+    def registrar_venta(self, pelicula):
+        self.cursor.execute(
+            'INSERT INTO ventas (pelicula) VALUES (?)', (pelicula,)
+        )
+        self.conexion.commit()
+
+    def cerrar_conexion(self):
+        self.conexion.close()
+    
+
+# Dado como idea por la IA: (objetivo que empresa no este vacio cuando lo vuelva a ejecutar)
+    def obtener_todas_las_peliculas(self):
+        self.cursor.execute(
+            'SELECT pelicula, genero FROM peliculas'
+        )
+        return self.cursor.fetchall()
+# Sigue en empresa
