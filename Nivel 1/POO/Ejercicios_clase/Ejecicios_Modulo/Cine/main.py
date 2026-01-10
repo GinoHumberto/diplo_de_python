@@ -11,16 +11,6 @@ peliculas_guardadas = db.obtener_todas_las_peliculas()
 empresa.cargar_peliculas_desde_db(peliculas_guardadas)
 #----------- Mi codigo ------------#
 
-def menu():
-    print(
-        '\nBienvenido al Menu, selecciona la opción:\n'
-        '0. Salir del menu \n'
-        '1. Agregar pelicula \n'
-        '2. Cambiar pelicula \n'
-        '3. Dar entrada\n'
-        '4. Mostrar peliculas disponibles'
-    )
-
 def nombre_y_genero():
     pelicula = input('Ingresa el nombre de la película: ')
     genero = input('Ingresa el género de la pelicula: ')
@@ -30,28 +20,102 @@ def nombre_pelicula():
     pelicula_vieja = input('Ingresa el nombre de la película: ')
     return pelicula_vieja
 
-choice = 1
-while choice != 0:
-    print(menu())
-    choice = int(input('Seleciona la opción que desea: '))
-    if choice == 0:
-        db.cerrar_conexion()
-    if choice == 1:
-        pelicula, genero = nombre_y_genero()
-        if empresa.asignar_pelicula_sala(pelicula) == True:
-            db.agregar_pelicula(pelicula, genero)
-    elif choice == 2:
-        print('Pelicula nueva')
-        nombre, genero = nombre_y_genero()
-        print('Pelicula a remplazar')
-        pelicula_vieja = nombre_pelicula()
-        if empresa.cambiar_pelicula_sala(pelicula_vieja, nombre) == True:
-            db.cambiar_pelicula(pelicula_vieja, nombre, genero)
-    elif choice == 3:
-        pelicula_seleccionada = entrada.dar_entrada(nombre_pelicula(), db.mostrar_peliculas_disponibles())
-        if empresa.asignar_asiento_sala(pelicula_seleccionada) == True:
-            db.registrar_venta(pelicula_seleccionada)
-    elif choice == 4:
-        peliculas_disponibles = db.mostrar_peliculas_disponibles()
-        for fila in peliculas_disponibles:
-            print(fila[0])
+# <><><><><><><><><><> #
+#        MENUS         #
+# <><><><><><><><><><> #
+
+def menu_general():
+    print(
+        '\nBienvenido al Menu, selecciona la opción:\n'
+        '0. Salir del menu \n'
+        '1. Gestionar salas \n'
+        '2. Gestionar entradas e inventario \n'
+    )
+
+def menu_salas():
+    print(
+        '\nBienvenido al Menu de salas, selecciona la opción:\n'
+        '0. Volver al menu principal \n'
+        '1. Agregar pelicula \n'
+        '2. Cambiar pelicula \n'
+        '3. Mostrar peliculas disponibles\n'
+    )
+
+def menu_entradas():
+    print(
+        '\nBienvenido al Menu de entradas, selecciona la opción:\n'
+        '0. Volver al menu principal \n'
+        '1. Dar una entrada \n'
+    )
+
+#################################
+#        GESTOR GENERAL         #
+#################################
+
+def gestor_general():
+    choice = 1 
+    while choice != 0:
+        print(menu_general())
+        choice = int(input('Seleciona la opción que desea: '))
+        if choice == 0:
+            db.cerrar_conexion()
+        if choice == 1:
+            gestor_salas()
+        if choice == 2:
+            gestor_entradas()
+
+##################################
+#        GESTOR DE SALAS         #
+##################################
+
+def gestor_salas():
+    choice = 1
+    while choice != 0:
+        print(menu_salas())
+        choice = int(input('Seleciona la opción que desea: '))
+        
+        if choice == 0:
+            gestor_general()
+
+        elif choice == 1:  # AGREGA UNA PELICULA
+            pelicula, genero = nombre_y_genero()
+            if empresa.asignar_pelicula_sala(pelicula) == True:
+                db.agregar_pelicula(pelicula, genero)
+        
+        elif choice == 2:  # CAMBIA UNA PELICULA YA ASIGNADA
+            print('Pelicula nueva')
+            nombre, genero = nombre_y_genero()
+            print('Pelicula a remplazar')
+            pelicula_vieja = nombre_pelicula()
+            if empresa.cambiar_pelicula_sala(pelicula_vieja, nombre) == True:
+                db.cambiar_pelicula(pelicula_vieja, nombre, genero)
+
+        elif choice == 3:  # MUESTRA LAS PELICULAS DISPONIBLES
+            peliculas_disponibles = db.mostrar_peliculas_disponibles()
+            for fila in peliculas_disponibles:
+                print(fila[0])
+
+##################################
+#        GESTOR ENTRADAS         #
+##################################
+
+def gestor_entradas():
+    choice = 1
+    while choice != 0:
+        print(menu_entradas())
+        choice = int(input('Seleciona la opción que desea: '))
+        
+        if choice == 0:
+            gestor_general()
+
+        elif choice == 1:  # OTORGA UNA ENTRADA
+            pelicula_seleccionada = entrada.dar_entrada(nombre_pelicula(), db.mostrar_peliculas_disponibles())
+            if empresa.asignar_asiento_sala(pelicula_seleccionada) == True:
+                db.registrar_venta(pelicula_seleccionada)
+
+
+# <><><><><><><><><><> #
+#      EJECUCION       #
+# <><><><><><><><><><> #
+
+gestor_general()

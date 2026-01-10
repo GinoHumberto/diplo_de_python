@@ -1,15 +1,24 @@
 from asientos import Asiento
 
+# <><><><><><><><><><> #
+#       ERRORES        #
+# <><><><><><><><><><> #
+
 class NoHayAsientos(Exception):
     def __init__(self):
         super().__init__()
         self.msg = 'No Hay asientos disponibles'   
+
+# <><><><><><><><><><> #
+#        SALAS         #
+# <><><><><><><><><><> #
 
 class Sala():
     
     def __init__(self):
         self.__asientos = [Asiento() for i in range(10)]
         self.__pelicula = None
+        self.__tipo = None
 
     def asignar_asiento(self):
         for asiento in self.__asientos:
