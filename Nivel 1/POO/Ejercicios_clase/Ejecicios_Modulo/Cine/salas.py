@@ -15,8 +15,8 @@ class NoHayAsientos(Exception):
 
 class Sala():
     
-    def __init__(self):
-        self.__asientos = [Asiento() for i in range(10)]
+    def __init__(self, asientos):
+        self.__asientos = [Asiento() for i in range(asientos)]
         self.__pelicula = None
         self.__tipo = None
 
@@ -33,3 +33,8 @@ class Sala():
     
     def asignar_pelicula(self, pelicula):
         self.__pelicula = pelicula
+
+# -------- tipo de sala --------- #
+
+    def tipo_de_sala(self), tipo:
+        self.__tipo = tipo

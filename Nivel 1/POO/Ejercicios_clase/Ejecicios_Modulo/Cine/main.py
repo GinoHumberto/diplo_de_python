@@ -5,11 +5,16 @@ from empresa import Empresa
 db = Database()
 entrada = Entrada()
 empresa = Empresa()
+# ---- CREO EMPRESA CON 10 ASIENTOS POR SALA ----#
+empresa(10)
 
 # CODIGO IA PARA CARGAR DATOS DE SQLITE:
 peliculas_guardadas = db.obtener_todas_las_peliculas()
 empresa.cargar_peliculas_desde_db(peliculas_guardadas)
 #----------- Mi codigo ------------#
+
+def asignar_tipo_a_salas(tipo):
+    empresa.pasar_tipo_a_sala(tipo)
 
 def nombre_y_genero():
     pelicula = input('Ingresa el nombre de la película: ')
@@ -118,4 +123,8 @@ def gestor_entradas():
 #      EJECUCION       #
 # <><><><><><><><><><> #
 
+salas = {'sala_1' : '2D', 'sala_2' : '2D', 'sala_3' : '3D', 'sala_4' : '3D'}
+
+for sala in salas:
+    asignar_tipo_a_salas(sala)
 gestor_general()

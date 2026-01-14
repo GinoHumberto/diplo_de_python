@@ -27,8 +27,8 @@ class Database:
         tabla_salas = self.cursor.execute(
             '''CREATE TABLE IF NOT EXISTS salas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            tipo TEXT, pelicula TEXT, FOREIGN KEY (pelicula)
-            REFERENCES peliculas (pelicula))'''
+            tipo TEXT, pelicula TEXT, asientos INTEGER,
+            FOREIGN KEY (pelicula) REFERENCES peliculas (pelicula))'''
         )
 
     # <><><><><><><><><><><><><><><><><> #
@@ -70,9 +70,23 @@ class Database:
     #  FUNCIONES DE LA TABLA SALAS   #
     # <><><><><><><><><><><><><><><> #
 
-    def asignar_pelicula_a_sala(self, pelicula, tipo):
+    def asignar_pelicula_a_sala(self, pelicula):
         self.cursor.execute(
-            'INSERT INTO salas (tipo, pelicula) VALUES (?, ?)', (tipo, pelicula)
+            'INSERT INTO salas (pelicula) VALUES (?)', (pelicula)
+        )
+        self.conexion.commit
+
+    def cambiar_pelicula_sala(self, pelicula, pelicula_vieja):
+        self.cursor.execute(
+            '''UPDATE salas, SET pelicula = ?
+            WHERE pelicula = ? 
+            ''', (pelicula, pelicula_vieja)
+        )
+        self.conexion.commit
+
+    def asignar_tipo_y_asientos_a_sala(self, tipo, asientos):
+        self.cursor.execute(
+            'INSERT INTO salas (tipo, asientos), VALUES (?, ?)', (tipo, asientos)
         )
         self.conexion.commit
 

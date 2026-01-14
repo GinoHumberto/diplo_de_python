@@ -14,14 +14,15 @@ class NoHaySalaDisponible(Exception):
         super().__init__()
         self.msg = 'No Hay salas libres'
 
+
 # <><><><><><><><><><> #
 #       EMPRESA        #
 # <><><><><><><><><><> #
 
 class Empresa:
 
-    def __init__(self):
-        self.__cantidad_salas = [Sala() for i in range(4)]
+    def __init__(self, asientos):
+        self.__cantidad_salas = [Sala(asientos) for i in range(4)]
 
     def asignar_asiento_sala(self, pelicula_seleccionada):
         for sala in self.__cantidad_salas:
@@ -29,7 +30,7 @@ class Empresa:
                 if sala.asignar_asiento() == True:
                     return True
 
-    def asignar_pelicula_sala(self, pelicula, tipo):
+    def asignar_pelicula_sala(self, pelicula):
         for sala in self.__cantidad_salas:
             if sala.pelicula_asignada == None:
                 sala.asignar_pelicula(pelicula)
@@ -43,9 +44,9 @@ class Empresa:
                 return True
         raise NoHaySalaConEsaPelicula
 
-
-
-
+    def pasar_tipo_a_sala(self, tipo):
+        for sala in self.__cantidad_salas:
+            sala.tipo_de_sala(tipo)
 
 # Dado como idea por la IA:
     def cargar_peliculas_desde_db(self, lista_peliculas):
