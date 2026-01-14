@@ -22,7 +22,7 @@ class NoHaySalaDisponible(Exception):
 class Empresa:
 
     def __init__(self, asientos):
-        self.__cantidad_salas = [Sala(asientos) for i in range(4)]
+        self.__cantidad_salas = [Sala(asientos) for i in range(4)] # Esto tiene que cambiarse
 
     def asignar_asiento_sala(self, pelicula_seleccionada):
         for sala in self.__cantidad_salas:

@@ -2,6 +2,18 @@ from database import Database
 from entrada import Entrada
 from empresa import Empresa
 
+# El main se debe acortar, ademas
+# se tiene que realizar una actualizacion,
+# donde haya una seccion para los clientes y una
+# para el gerente. El main mas que un orquestador esta
+# realizando trabajo de mas, por lo tanto se debe hacer
+# un programa Startup y uno que maneje la informacion 
+# basica. La idea es que sea facil cambiar la 
+# cantidad de asientos, salas, tomando informacion desde
+# la base de datos, mas que solo pasar informacion a
+# la base de datos
+
+
 db = Database()
 entrada = Entrada()
 empresa = Empresa()

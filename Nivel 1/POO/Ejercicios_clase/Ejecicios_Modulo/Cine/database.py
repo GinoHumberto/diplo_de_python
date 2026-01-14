@@ -84,6 +84,8 @@ class Database:
         )
         self.conexion.commit
 
+# Falta realizar ajustes, se va a realizar un cambion en la base de datos.
+
     def asignar_tipo_y_asientos_a_sala(self, tipo, asientos):
         self.cursor.execute(
             'INSERT INTO salas (tipo, asientos), VALUES (?, ?)', (tipo, asientos)
