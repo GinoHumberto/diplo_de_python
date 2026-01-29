@@ -186,3 +186,171 @@ print(df.iloc[2]) # por posición
 
 #### Estadísticas rápidas
 print(df.describe())
+
+
+# Clase 32
+
+**IMPORTANTE** si cuando ejecutamos un ejercicio de matplotlib y no levanta la imagen es necesario instalar la libreria: **pip install python-qt**!!!!
+
+**MUY RECOMENDABLE RE VER LA CLASE**
+
+
+Supongamos que tenemos datos .csv como:
+Nombre,Edad,Ciudad
+Ana,23,Córdoba
+Luis,35,Buenos Aires
+Carla,29,Rosario
+Pedro,42,Mendoza
+
+Pandas puede leer esos datos y tabularlos y ordenarlos de una forma que sea prolija:
+```py 
+import pandas as pd
+# Leer un CSV
+df = pd.read_csv("datos.csv")
+print(df.head())
+```
+que nos dejaria
+    Nombre  Edad  Ciudad
+0   Ana     23    Córdoba
+1   Luis    35    Buenos Aires
+2   Carla   29    Rosario
+3   Pedro   42    Mendoza
+
+Pandas al igual que los arcivhos csv, puede leer archivos .TSV y .txt:
+
+```py 
+import pandas as pd
+# Leer .tsv
+df_tsv = pd.read_csv("datos.tsv", sep="\t")
+print(df_tsv.head()
+
+# Leer .txt
+df_txt = pd.read_csv("datos.txt", sep=";")
+print(df_txt.head())
+```
+
+Tambien se puede guardar un data frame en .csv:
+```py 
+import pandas as pd
+
+# Guardar en CSV
+df.to_csv("salida.csv", index=False) # index=False evita guardar la columna de índices
+```
+### Exel
+
+Pandas también puede trabajar con archivos de exel (.xlsx , .xls ), aunque requiere instalar openpyxl o xlrd para manejar los formatos modernos.
+
+#### Para leer un archivo Exel:
+
+```py 
+import pandas as pd
+
+# Leer hoja por defecto
+df_excel = pd.read_excel("datos.xlsx")
+print(df_excel.head())
+
+# Leer una hoja específica
+df_hoja = pd.read_excel("datos.xlsx", sheet_name="Hoja1")
+```
+#### Para guardar un DataFrame en exel
+
+Para guardar en exel no es necesario panda, ya que es una funcion integrada de python
+
+```py 
+df.to_excel("salida.xlsx", sheet_name="Resultados", index=False)
+```
+
+### JSON
+
+Supongamos datos.json :
+
+[
+{"Nombre": "Ana", "Edad": 23, "Ciudad": "Córdoba"},
+{"Nombre": "Luis", "Edad": 35, "Ciudad": "Buenos Aires"},
+{"Nombre": "Carla", "Edad": 29, "Ciudad": "Rosario"}
+]
+
+Utilizariamos:
+```py
+df_json = pd.read_json("datos.json")
+print(df_json)
+```
+
+leeria el archivo y nos retornaria algo como vimos anteriormente.
+
+Para guardar un json seria:
+```py
+df.to_json("salida.json", orient="records", indent=4)
+```
+
+
+### Con base de datos
+
+Pandas permite leer y escribir desde base de datos relacionales como MYSQL,SQLite.
+
+Ejemplo:
+```py
+import sqlite3
+import pandas as pd
+
+# Conexión a base SQLite
+conexion = sqlite3.connect("mibase.db")
+
+# Crear un DataFrame con algunos datos de prueba
+data = {
+"nombre": ["Juan", "María", "Pedro", "Ana"],
+"edad": [25, 30, 35, 28],
+"ciudad": ["Madrid", "Barcelona", "Sevilla", "Valencia"]
+}
+df = pd.DataFrame(data)
+
+# Guardar un DataFrame en la base de datos
+df.to_sql("personas", conexion, if_exists="replace", index=False)
+print("\nDataFrame guardado en la base de datos 'mibase.db' en la tabla 'personas'.")
+
+# Leer los datos de la base de datos y guardarlos en otro DataFrame
+df_leido = pd.read_sql("SELECT * FROM personas", conexion)
+print("\nDataFrame leído de la base de datos:")
+print(df_leido)
+
+# Cerrar la conexión
+conexion.close()
+print("\nConexión a la base de datos cerrada.")
+```
+
+Para conectar con MySQL necesitamos intalar una dependencia:
+
+**pip install sqlalchemy pymysql**
+
+Donde:
+* SQLAlchemy: biblioteca para trabajar con SQL en Python.
+* PyMySQL: conector específico para MySQL
+
+ahora ¿cómo nos conectamos?
+```py
+import pandas as pd
+from sqlalchemy import create_engine
+
+# Crear la conexión a MySQL
+usuario = "root"
+contrasena = "mi_password"
+host = "localhost"
+base_datos = "mi_base"
+
+# Cadena de conexión
+conexion = create_engine(f"mysql+pymysql://{usuario}:{contrasena}@{host}/{base_datos}")
+
+# Leer datos desde una tabla
+df_mysql = pd.read_sql("SELECT * FROM usuarios", conexion)
+print(df_mysql.head())
+```
+**ver LA CLASE para ver como conectarse a mysql**
+
+Para guardar
+```py
+df.to_sql("nueva_tabla", conexion, if_exists="replace", index=False)
+```
+
+**Parámetros importantes**:
+* if_exists="replace" : reemplaza la tabla si ya existe.
+* if_exists="append" : agrega los datos al final de la tabla existente
