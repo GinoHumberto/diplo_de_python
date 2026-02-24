@@ -51,29 +51,80 @@
 #                              Ejemplo SQLite                              #
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> #
 
-import sqlite3
+# import sqlite3
+# import pandas as pd
+
+# # Conexión a base SQLite
+# conexion = sqlite3.connect("mibase.db")
+
+# # Crear un DataFrame con algunos datos de prueba
+# data = {
+# "nombre": ["Juan", "María", "Pedro", "Ana"],
+# "edad": [25, 30, 35, 28],
+# "ciudad": ["Madrid", "Barcelona", "Sevilla", "Valencia"]
+# }
+# df = pd.DataFrame(data)
+
+# # Guardar un DataFrame en la base de datos
+# df.to_sql("personas", conexion, if_exists="replace", index=False)
+# print("\nDataFrame guardado en la base de datos 'mibase.db' en la tabla 'personas'.")
+
+# # Leer los datos de la base de datos y guardarlos en otro DataFrame
+# df_leido = pd.read_sql("SELECT * FROM personas", conexion)
+# print("\nDataFrame leído de la base de datos:")
+# print(df_leido)
+
+# # Cerrar la conexión
+# conexion.close()
+# print("\nConexión a la base de datos cerrada.")
+
+
+
+# <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> #
+#                          Pandas, Matplot y Numpy                           #
+# <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> #
+
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Conexión a base SQLite
-conexion = sqlite3.connect("mibase.db")
+# datos = {
+# "Mes": ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
+# "Ventas": [100, 120, 90, 150, 200]
+# }
+# df = pd.DataFrame(datos)
+# # Gráfico de líneas
+# df.plot(x="Mes", y="Ventas", kind="line", marker="o", title="Ventas mensuales")
+# plt.show()
+# df.plot(x="Mes", y="Ventas", kind="bar", title="Ventas por mes")
+# plt.show()
+# df["Clientes"] = [30, 40, 35, 50, 65]
+# df.plot(x="Clientes", y="Ventas", kind="scatter", title="Relación Clientes-Ventas")
+# plt.show()
 
-# Crear un DataFrame con algunos datos de prueba
-data = {
-"nombre": ["Juan", "María", "Pedro", "Ana"],
-"edad": [25, 30, 35, 28],
-"ciudad": ["Madrid", "Barcelona", "Sevilla", "Valencia"]
-}
-df = pd.DataFrame(data)
 
-# Guardar un DataFrame en la base de datos
-df.to_sql("personas", conexion, if_exists="replace", index=False)
-print("\nDataFrame guardado en la base de datos 'mibase.db' en la tabla 'personas'.")
+# Histograma de edades
 
-# Leer los datos de la base de datos y guardarlos en otro DataFrame
-df_leido = pd.read_sql("SELECT * FROM personas", conexion)
-print("\nDataFrame leído de la base de datos:")
-print(df_leido)
+# df_hist = pd.DataFrame({"Edades": np.random.randint(18, 65, size=100)})
+# df_hist["Edades"].plot(kind="hist", bins=10, title="Distribución de edades")
+# plt.xlabel("Edad")
+# plt.show()
 
-# Cerrar la conexión
-conexion.close()
-print("\nConexión a la base de datos cerrada.")
+
+# Grafico de caja y bigote 
+
+# df_box = pd.DataFrame({
+#     "Ventas_Q1": [100, 120, 130, 110, 140],
+#     "Ventas_Q2": [200, 210, 190, 220, 230]
+#     })
+# df_box.plot(kind="box", title="Distribución de ventas por trimestre")
+# plt.show()
+
+
+# Gráfico de líneas
+
+# fechas = pd.date_range("2024-01-01", periods=6, freq="ME") # aca Freq nos dice que es al fin de mes
+# ventas = [100, 120, 115, 150, 180, 200]
+# df_line = pd.DataFrame({"Fecha": fechas, "Ventas": ventas})
+# df_line.plot(x="Fecha", y="Ventas", kind="line", marker="o", title="Evolución de ventas")
+# plt.show()

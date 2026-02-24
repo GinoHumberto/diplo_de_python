@@ -354,3 +354,48 @@ df.to_sql("nueva_tabla", conexion, if_exists="replace", index=False)
 **Parámetros importantes**:
 * if_exists="replace" : reemplaza la tabla si ya existe.
 * if_exists="append" : agrega los datos al final de la tabla existente
+
+
+# Clase 33
+
+Clase de base de datos MySQL. Recomendable ver
+Instalación de docker para descargar MySQL
+
+¿Qué es una API?
+Es una interfaz de comunicacion, entre mi aplicación y otra aplicación.
+
+
+# Clase 37
+
+Utilización de pandas con numpy para hacer gráficos en matplot. Los diferentes graficos básicos: Histogramas, caja y bigote, lineal...
+
+Comprensión o interpretación semántica: cuando una libreria interpreta los datos o otra libreria, se dice que esto es una interpretación semántica.
+
+## Optimisación y buenas prácticas
+Pandas por defecto utiliza int64, float64 y object. Si reducimos a variantes pequeñás se puede ahorrar megabytes.
+
+```py
+import pandas as pd
+import numpy as np
+# DataFrame grande simulado
+df = pd.DataFrame({
+"ID": np.arange(1, 1_000_001),
+"Edad": np.random.randint(18, 90, size=1_000_000),
+"Salario": np.random.randint(30_000, 120_000, size=1_000_000),
+"Ciudad": np.random.choice(["Córdoba", "Buenos Aires", "Rosario"],
+size=1_000_000)
+})
+print(df.info(memory_usage="deep")) # el deep es que mida la memoria de una forma profunda.
+
+
+# Cambiamos los tipos de datos Numericos
+df["ID"] = df["ID"].astype("int32")
+df["Edad"] = df["Edad"].astype("int8")
+df["Salario"] = df["Salario"].astype("int32")
+print(df.info(memory_usage="deep"))
+
+# cambiar y optimizar el textos
+df["Ciudad"] = df["Ciudad"].astype("category")
+print(df.info(memory_usage="deep"))
+```
+

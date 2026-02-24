@@ -392,3 +392,7 @@ Muy utilizada en estadística y machine learning.
 arr = np.random.normal(loc=0, scale=1, size=10)
 print("Distribución normal (media=0, std=1):", arr)
 ```
+
+
+# Clase 37
+
