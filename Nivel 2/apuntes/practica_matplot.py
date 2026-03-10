@@ -337,3 +337,29 @@ ax.set_xlabel("x")
 ax.set_ylabel("y")
 ax.legend()
 plt.show()
+
+# ------------------------- #
+#       Dispersion 3d       #
+# ------------------------- #
+
+import numpy as np
+
+rng = np.random.default_rng(42)
+n = 600
+x = rng.normal(0, 1, n)
+y = rng.normal(0, 1, n)
+z = rng.normal(0, 1, n)
+c = np.sqrt(x**2 + y**2 + z**2)
+
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(7, 5), layout="constrained")
+sc = ax.scatter(x, y, z, c=c, cmap="viridis", s=10, alpha=0.9)
+
+ax.set_title("Dispersión 3D con color por distancia radial")
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+
+cb = fig.colorbar(sc, ax=ax, shrink=0.7, pad=0.05)
+cb.set_label("Distancia radial")
+ax.set_box_aspect((1, 1, 1))
+plt.show()

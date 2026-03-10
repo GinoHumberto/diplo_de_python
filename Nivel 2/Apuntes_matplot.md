@@ -693,3 +693,216 @@ plt.show()
 ## Graficar de pandas y numpy
 
 Cuando trabajás con datos tabulares, Pandas y NumPy se integran de manera natural con Matplotlib. Podés graficar directamente desde DataFrames, preparar series temporales y realizar cálculos vectorizados con NumPy sin perder la API orientada a objetos de Matplotlib.
+
+
+# Clase 41
+
+#### Ejemplo con titanic
+Cargamos el dataset Titanic desde Seaborn, lo convertimos en un DataFrame de Pandas y generamos gráficos con Matplotlib manteniendo la API orientada a objetos.
+
+```py
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+# 1) Cargar y preparar datos
+Titanic = sns.load_dataset("titanic")
+Titanic = Titanic[["survived", "class", "sex", "age", "fare"]].dropna()
+
+# 2) Tasa de supervivencia por clase y sexo
+fig, ax = plt.subplots(layout="constrained")
+survival_rate = Titanic.groupby(["class", "sex"])["survived"].mean().unstack()
+survival_rate.plot(kind="bar", ax=ax)
+ax.set_title("Titanic: Supervivencia por clase y sexo")
+ax.set_xlabel("Clase")
+ax.set_ylabel("Tasa de supervivencia")
+ax.legend(title="Sexo")
+plt.show()
+
+# 3) Dispersión: edad vs. tarifa (fare)
+fig, ax = plt.subplots(figsize=(7, 5), layout="constrained")
+ax.scatter(Titanic["age"], Titanic["fare"], c=Titanic["survived"],  # Es el grafico de dispersión.
+cmap="coolwarm", alpha=0.7)
+ax.set_title("Titanic: Edad vs. Tarifa")
+ax.set_xlabel("Edad")
+ax.set_ylabel("Tarifa")
+plt.show()
+
+# 4) Histogramas de edad por supervivencia
+fig, ax = plt.subplots(figsize=(7, 4), layout="constrained")
+for survived, subset in Titanic.groupby("survived"):
+etiqueta = "Sobrevive" if survived == 1 else "No sobrevive"
+ax.hist(subset["age"], bins="auto", alpha=0.5, density=True, label=etiqueta)
+ax.set_title("Titanic: Densidad de edad por supervivencia")
+ax.set_xlabel("Edad")
+ax.set_ylabel("Densidad")
+ax.legend()
+plt.show()
+```
+
+## Visualización de series temporales
+
+Las series temporales son omnipresentes en análisis financiero, monitoreo de sensores y planificación. Pandas y NumPy se integran con Matplotlib para convertir fechas, formatear ejes y resamplear tendencias.
+
+### conversion de fechas con pd.to_datetime
+Casos típicos: columnas de texto a datetime64[ns], detección automática o manual de formatos, manejo de valores inválidos (errors="coerce") y zonas horarias (tz_localize, tz_convert).
+
+```py
+import pandas as pd
+
+df = pd.DataFrame({
+    "fecha": ["2025-01-01", "2025-01-02", "01/03/2025", "2025/01/04", "2025-13-01"],
+    "valor": [10, 12, 11, 15, 14]
+})
+
+df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce", dayfirst=False)
+# df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d") # Formato explícito
+df = df.set_index("fecha").sort_index()
+# df = df.tz_localize("UTC").tz_convert("America/Argentina/Cordoba")
+```
+unificá la zona horaria, ordená con df.sort_index() y documentá la política de datos faltantes.
+
+### Gráficos de series de tiempos
+#### Línea básica con matplotlib (API OO)
+```py
+import pandas as pd
+
+df = pd.DataFrame({
+    "fecha": ["2025-01-01", "2025-01-02", "01/03/2025", "2025/01/04", "2025-13-01"],
+    "valor": [10, 12, 11, 15, 14]
+})
+
+df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce", dayfirst=False)
+
+# df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d") # Formato explicito
+
+df = df.set_index("fecha").sort_index()
+
+# df = df.tz_localize("UTC").tz_convert("America/Argentina/Cordoba")
+
+fig, ax = plt.subplots(figsize=(8, 4), layout="constrained")
+ax.plot(df.index, df["valor"], marker="o")
+ax.set_title("Serie de tiempo: valor diario")
+ax.set_xlabel("Fecha")
+ax.set_ylabel("Valor")
+plt.show()
+```
+
+### Resampleo y tendencias
+Resamplear cambia la frecuencia temporal (por ejemplo, diario a semanal/mensual) con una agregación. Las tendencias se observan con ventanas móviles, medianas o suavizados exponenciales.
+#### Resampleo a semanal/mensual
+semana = df["valor"].resample("W").mean()
+mes = df["valor"].resample("M").sum()
+
+#### Ventanas móviles (rolling)
+media7 = df["valor"].rolling(window=7, center=True, min_periods=1).mean()
+mediana7 = df["valor"].rolling(7, center=True, min_periods=1).median()
+
+#### Suavizado exponencial (EWM)
+ewm14 = df["valor"].ewm(span=14, adjust=False).mean()
+
+#### Tendencia integradora
+```py
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(9, 4), layout="constrained")
+ax.plot(df.index, df["valor"], alpha=0.4, label="Diario")
+ax.plot(semana.index, semana, linewidth=2, label="Semanal (mean)")
+ax.plot(media7.index, media7, linewidth=2, label="Media móvil 7D")
+ax.plot(ewm14.index, ewm14, linewidth=2, label="EWM 14")
+ax.set_title("Resampleo y tendencias")
+ax.set_xlabel("Fecha")
+ax.set_ylabel("Valor")
+ax.legend()
+plt.show()
+```
+
+#### Resampleo mensual y suavizado
+```py
+mensual_mean = df["valor"].resample("M").mean()
+mensual_mean_3 = mensual_mean.rolling(3, min_periods=1).mean()
+fig, ax = plt.subplots(figsize=(8, 4), layout="constrained")
+ax.plot(mensual_mean.index, mensual_mean, marker="o", label="Mensual (mean)")
+ax.plot(mensual_mean_3.index, mensual_mean_3, label="Mensual suavizada (3M)")
+ax.set_title("Promedio mensual y suavizado 3 meses")
+ax.set_ylabel("Valor")
+ax.legend()
+plt.show()
+```
+
+## Visualización 3d
+Matplotlib ofrece soporte para gráficos 3D mediante `subplot_kw={"projection": "3d"}`. Con NumPy generamos datos y desde Matplotlib los visualizamos con dispersión, superficies y triangulaciones.
+
+### importacion de mpl_toolkits.mplot3d
+
+Desde Matplotlib moderno basta con crear el subplot con proyección 3D, sin importar Axes3D explícitamente.
+```py
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(7, 5),
+layout="constrained")
+
+t = np.linspace(0, 2 * np.pi, 200)
+x, y, z = np.cos(t), np.sin(t), t
+
+ax.plot3D(x, y, z)
+ax.set_title("Ejemplo 3D: hélice simple")
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+plt.show()
+```
+
+### Grafico de dispersión 3d
+```py
+import matplotlib.pyplot as plt
+import numpy as np
+
+rng = np.random.default_rng(42)
+n = 600
+x = rng.normal(0, 1, n)
+y = rng.normal(0, 1, n)
+z = rng.normal(0, 1, n)
+c = np.sqrt(x**2 + y**2 + z**2)
+
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(7, 5), layout="constrained")
+sc = ax.scatter(x, y, z, c=c, cmap="viridis", s=10, alpha=0.9)
+
+ax.set_title("Dispersión 3D con color por distancia radial")
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+
+cb = fig.colorbar(sc, ax=ax, shrink=0.7, pad=0.05)
+cb.set_label("Distancia radial")
+ax.set_box_aspect((1, 1, 1))
+plt.show()
+```
+Se recomienda usar alpha moderado y set_box_aspect para evitar distorsiones.
+
+#### Superficie en malla regular
+```py
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-3, 3, 200)
+y = np.linspace(-3, 3, 200)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(np.sqrt(X**2 + Y**2))
+
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(7, 5), layout="constrained")
+
+surf = ax.plot_surface(X, Y, Z, cmap="viridis", rstride=1, cstride=1, linewidth=0, antialiased=True)
+
+ax.set_title("Superficie 3D: z = sin(sqrt(x^2 + y^2))")
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+
+cb = fig.colorbar(surf, ax=ax, shrink=0.7, pad=0.05)
+cb.set_label("Altura (Z)")
+ax.view_init(elev=25, azim=45)
+ax.set_box_aspect((1, 1, 0.5))
+plt.show()
+
+```
