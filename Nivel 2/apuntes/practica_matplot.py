@@ -291,75 +291,104 @@ import matplotlib.pyplot as plt
 # -------------------------------- #
 #       Diseños con Gridspec       #
 # -------------------------------- #
-import numpy as np
-from matplotlib.gridspec import GridSpec
+# import numpy as np
+# from matplotlib.gridspec import GridSpec
 
-x = np.linspace(0, 2 * np.pi, 300)
+# x = np.linspace(0, 2 * np.pi, 300)
 
-fig = plt.figure(figsize=(9, 6), layout='constrained')
+# fig = plt.figure(figsize=(9, 6), layout='constrained')
 
-gs = GridSpec(nrows=2, ncols=2, figure=fig, height_ratios=[2, 1])
+# gs = GridSpec(nrows=2, ncols=2, figure=fig, height_ratios=[2, 1])
 
-ax_top = fig.add_subplot(gs[0, :])
-ax_top.plot(x, np.sin(x), label="sin(x)")
-ax_top.plot(x, np.cos(x), label="cos(x)")
-ax_top.set_title("Superior: sin y cos")
-ax_top.legend()
+# ax_top = fig.add_subplot(gs[0, :])
+# ax_top.plot(x, np.sin(x), label="sin(x)")
+# ax_top.plot(x, np.cos(x), label="cos(x)")
+# ax_top.set_title("Superior: sin y cos")
+# ax_top.legend()
 
-ax_bl = fig.add_subplot(gs[1, 0])
-ax_bl.plot(x, np.sin(2 * x), color="purple")
-ax_bl.set_title("Inferior Izq: sin(2x)")
+# ax_bl = fig.add_subplot(gs[1, 0])
+# ax_bl.plot(x, np.sin(2 * x), color="purple")
+# ax_bl.set_title("Inferior Izq: sin(2x)")
 
-ax_br = fig.add_subplot(gs[1, 1])
-ax_br.plot(x, np.cos(2 * x), color="green")
-ax_br.set_title("Inferior Der: cos(2x)")
+# ax_br = fig.add_subplot(gs[1, 1])
+# ax_br.plot(x, np.cos(2 * x), color="green")
+# ax_br.set_title("Inferior Der: cos(2x)")
 
-fig.suptitle("Diseño avanzado con GridSpec (1 grande arriba, 2 abajo)")
-plt.show()
+# fig.suptitle("Diseño avanzado con GridSpec (1 grande arriba, 2 abajo)")
+# plt.show()
 
 # -------------------------- #
 #       Estilos y temas      #
 # -------------------------- #
 
-import numpy as np
+# import numpy as np
 
-print(plt.style.available) # Lista de estilos disponibles
-plt.style.use("seaborn-v0_8") # Aplica estilo global hasta cambiarlo
+# print(plt.style.available) # Lista de estilos disponibles
+# plt.style.use("seaborn-v0_8") # Aplica estilo global hasta cambiarlo
 
-x = np.linspace(0, 2 * np.pi, 200)
-y = np.sin(x)
+# x = np.linspace(0, 2 * np.pi, 200)
+# y = np.sin(x)
 
-fig, ax = plt.subplots(layout="constrained")
+# fig, ax = plt.subplots(layout="constrained")
 
-ax.plot(x, y, label="sin(x)")
-ax.set_title("Ejemplo con estilo 'seaborn-v0_8'")
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.legend()
-plt.show()
+# ax.plot(x, y, label="sin(x)")
+# ax.set_title("Ejemplo con estilo 'seaborn-v0_8'")
+# ax.set_xlabel("x")
+# ax.set_ylabel("y")
+# ax.legend()
+# plt.show()
 
 # ------------------------- #
 #       Dispersion 3d       #
 # ------------------------- #
 
+# import numpy as np
+
+# rng = np.random.default_rng(42)
+# n = 600
+# x = rng.normal(0, 1, n)
+# y = rng.normal(0, 1, n)
+# z = rng.normal(0, 1, n)
+# c = np.sqrt(x**2 + y**2 + z**2)
+
+# fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(7, 5), layout="constrained")
+# sc = ax.scatter(x, y, z, c=c, cmap="viridis", s=10, alpha=0.9)
+
+# ax.set_title("Dispersión 3D con color por distancia radial")
+# ax.set_xlabel("X")
+# ax.set_ylabel("Y")
+# ax.set_zlabel("Z")
+
+# cb = fig.colorbar(sc, ax=ax, shrink=0.7, pad=0.05)
+# cb.set_label("Distancia radial")
+# ax.set_box_aspect((1, 1, 1))
+# plt.show()
+
+# ------------------------- #
+#       Variantes 3D        #
+# ------------------------- #
+
+import matplotlib.pyplot as plt
 import numpy as np
 
-rng = np.random.default_rng(42)
-n = 600
-x = rng.normal(0, 1, n)
-y = rng.normal(0, 1, n)
-z = rng.normal(0, 1, n)
-c = np.sqrt(x**2 + y**2 + z**2)
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
+X, Y = np.meshgrid(np.linspace(-2, 2, 50), np.linspace(-2, 2, 50))
+Z = np.cos(X) * np.sin(Y)
+ax.plot_wireframe(X, Y, Z, rstride=2, cstride=2)
+ax.set_title("Wireframe 3D")
+plt.show()
 
-fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(7, 5), layout="constrained")
-sc = ax.scatter(x, y, z, c=c, cmap="viridis", s=10, alpha=0.9)
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
+ax.contour3D(X, Y, Z, levels=25, cmap="viridis")
+ax.set_title("Contornos 3D")
+plt.show()
 
-ax.set_title("Dispersión 3D con color por distancia radial")
-ax.set_xlabel("X")
-ax.set_ylabel("Y")
-ax.set_zlabel("Z")
+from matplotlib.colors import LightSource
 
-cb = fig.colorbar(sc, ax=ax, shrink=0.7, pad=0.05)
-cb.set_label("Distancia radial")
-ax.set_box_aspect((1, 1, 1))
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
+ls = LightSource(azdeg=315, altdeg=45)
+rgb = ls.shade(Z, cmap=plt.get_cmap("terrain"), vert_exag=1.0,
+blend_mode="soft")
+ax.plot_surface(X, Y, Z, facecolors=rgb, linewidth=0, antialiased=False)
+ax.set_title("Superficie con sombreado (LightSource)")
 plt.show()
