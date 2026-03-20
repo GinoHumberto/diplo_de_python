@@ -965,3 +965,322 @@ ax.plot_surface(X, Y, Z, facecolors=rgb, linewidth=0, antialiased=False)
 ax.set_title("Superficie con sombreado (LightSource)")
 plt.show()
 ```
+
+# Clase 43
+## Interactividad en matplotlib
+Matplot permite crear graficos interactivos, es uno que actualiza la figura a medida que va interactuando. Se ejecuta en terminal
+
+### plt.ion() y graficos interactivos
+La ventana de la figura procese eventos de zoom/pan sin bloquear tu código.
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+
+plt.ion()
+fig, ax = plt.subplots(layout="constrained")
+
+x = np.linspace(0, 2 * np.pi, 300)
+
+(line,) = ax.plot(x, np.sin(x), label="sin(x)")
+ax.set_ylim(-1.5, 1.5)
+ax.legend()
+fig.canvas.draw_idle() # Esto es lo que refresca y re dibuja el grafico, es lo que le da soporte al movimiento
+
+for f in np.linspace(1, 3, 30):
+    y = np.sin(f * x)
+    line.set_ydata(y)
+    ax.set_title(f"Frecuencia: {f:.2f} Hz") # .2f son 2 decimales flotantes, es el limite del float.
+    fig.canvas.draw_idle()
+    fig.canvas.flush_events()
+    time.sleep(0.05) 
+
+plt.ioff()
+plt.show()
+```
+
+### Zoom, pan y selección
+Matplotlib dispone de SpanSelector, RectangleSelector, LassoSelector, etc.
+
+#### Selección horizontal con SpanSelector
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import SpanSelector
+
+x = np.linspace(0, 10, 500)
+y = np.sin(2 * np.pi * x) * np.exp(-0.2 * x)
+
+fig, (ax, ax_zoom) = plt.subplots(2, 1, figsize=(8, 6), layout="constrained")
+ax.plot(x, y)
+ax.set_title("Arrastrá para seleccionar un rango (horizontal)")
+ax_zoom.set_title("Zoom del rango seleccionado")
+
+def onselect(xmin, xmax):
+    mask = (x >= xmin) & (x <= xmax)
+    ax_zoom.clear()
+    ax_zoom.plot(x[mask], y[mask])
+    ax_zoom.set_title(f"Rango seleccionado: {xmin:.2f} a {xmax:.2f}") # Esto va a marcar que valores seleccionamos en el zoom
+    fig.canvas.draw_idle()
+
+span = SpanSelector( # Es lo que estoy importando
+        ax,
+        onselect,
+        direction="horizontal",
+        useblit=True, # Es la forma de seleccionar un punto de interes, es el movimiento que damos cuando seleccionamos.
+        props=dict(alpha=0.3), # Es la transparencia del rango de selección.
+        interactive=True
+    )
+
+plt.show()
+```
+
+#### Selección rectangular con RectangleSelector
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import RectangleSelector
+
+rng = np.random.default_rng(0)
+x = rng.normal(0, 1, 800)
+y = rng.normal(0, 1, 800)
+
+fig, ax = plt.subplots(layout="constrained")
+pts = ax.scatter(x, y, s=12, alpha=0.7)
+
+ax.set_title("Arrastrá un rectángulo para seleccionar puntos")
+
+def onselect(eclick, erelease):
+    xmin, xmax = sorted([eclick.xdata, erelease.xdata])
+    ymin, ymax = sorted([eclick.ydata, erelease.ydata])
+    sel = (x >= xmin) & (x <= xmax) & (y >= ymin) & (y <= ymax)
+    pts.set_alpha(np.where(sel, 1.0, 0.3))
+    fig.canvas.draw_idle()
+
+rect = RectangleSelector(
+    ax,
+    onselect,
+    useblit=True,
+    button=[1],
+    props=dict(facecolor="tab:blue", alpha=0.15, edgecolor="k")
+    )
+    
+plt.show()
+```
+
+## Widgets básicos (Slider, RangeSlider, Button)
+Permiten agregar controles sencillos dentro de la figura
+
+### Slider para controlar parámetros
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider
+
+x = np.linspace(0, 2 * np.pi, 400) # Crea 400 puntos entre 0 y 2π para que la curva se vea suave.
+fig, ax = plt.subplots(figsize=(8, 5), layout="constrained") 
+(line,) = ax.plot(x, np.sin(1 * x), label="sin(freq*x)") # devuelve una lista de objetos; al usar la coma, extraemos el primer objeto (la línea de la gráfica) para poder modificar sus datos más tarde en la función de actualización.
+ax.set_ylim(-1.5, 1.5)
+ax.legend()
+
+# Creación del slider
+ax_slider = fig.add_axes([0.15, 0.05, 0.7, 0.04])
+slider_freq = Slider(ax=ax_slider, label="Frecuencia", valmin=0.5, valmax=5.0, valinit=1.0) # valinit: La gráfica empieza con una frecuencia de 1.0.
+
+def actualizar(val):
+    f = slider_freq.val
+    line.set_ydata(np.sin(f * x)) # En lugar de borrar y crear una gráfica nueva (que sería lento), solo cambia los valores de la y en la línea existente.
+    ax.set_title(f"f = {f:.2f}")
+    fig.canvas.draw_idle()
+
+slider_freq.on_changed(actualizar) # Esta línea conecta el movimiento del slider con la función actualizar
+plt.show()
+```
+
+### RangeSlider para definir interval
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import RangeSlider
+
+x = np.linspace(0, 2 * np.pi, 400)
+y = np.sin(x) + 0.2 * np.sin(10 * x)
+
+fig, ax = plt.subplots(figsize=(8, 5), layout="constrained")
+(line,) = ax.plot(x, y)
+ax.set_ylim(-2, 2)
+
+ax_r = fig.add_axes([0.15, 0.05, 0.7, 0.04])
+rs = RangeSlider(
+    ax=ax_r,
+    label="Rango X",
+    valmin=float(x.min()),
+    valmax=float(x.max()),
+    valinit=(float(x.min()), float(x.max()))
+    )
+
+def actualizar_rango(val):
+    xmin, xmax = rs.val
+    ax.set_xlim(xmin, xmax)
+    fig.canvas.draw_idle()
+
+rs.on_changed(actualizar_rango)
+plt.show()
+```
+
+### Botón para resetear o lanzar acciones
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider, Button
+
+x = np.linspace(0, 2 * np.pi, 400)
+fig, ax = plt.subplots(figsize=(8, 5), layout="constrained")
+(line,) = ax.plot(x, np.sin(1 * x))
+ax.set_ylim(-1.5, 1.5)
+
+ax_s = fig.add_axes([0.15, 0.05, 0.6, 0.04])
+sl = Slider(ax=ax_s, label="Frecuencia", valmin=0.5, valmax=5.0, valinit=1.0)
+
+def on_change(val):
+    line.set_ydata(np.sin(sl.val * x))
+    fig.canvas.draw_idle()
+
+sl.on_changed(on_change)
+
+ax_b = fig.add_axes([0.78, 0.05, 0.12, 0.04])
+btn = Button(ax=ax_b, label="Reset")
+
+def on_reset(event):
+    sl.reset()
+
+btn.on_clicked(on_reset)
+plt.show()
+```
+
+## Animaciones
+FuncAnimation de Matplotlib permite animar artistas (líneas, scatter, textos) actualizando su estado en cada frame.
+
+* fig: figura a animar.
+* func(i): actualiza artistas y retorna una lista/tupla de objetos.
+* init_func(): estado inicial (opcional, necesario para blitting).
+* frames: número de frames o iterador.
+* interval: milisegundos entre frames.
+* blit=True: redibuja solo lo que cambia.
+
+### Animacion de una onda sinusoidal
+#### Onda viajera
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+x = np.linspace(0, 2 * np.pi, 600)
+fig, ax = plt.subplots(figsize=(7, 4), layout="constrained")
+(line,) = ax.plot(x, np.sin(x))
+ax.set_xlim(x.min(), x.max())
+ax.set_ylim(-1.2, 1.2)
+ax.set_title("Onda sinusoidal animada")
+ax.set_xlabel("x")
+ax.set_ylabel("y = sin(x - fase)")
+
+def init():
+    line.set_ydata(np.sin(x))
+    return (line,)
+
+def update(frame):
+    fase = 0.05 * frame
+    line.set_ydata(np.sin(x - fase))
+    return (line,)
+
+ani = FuncAnimation(
+    fig,
+    update,
+    frames=200,
+    init_func=init,
+    interval=20,
+    blit=True,
+    repeat=True
+    )
+
+plt.show()
+```
+
+### Guardar animaciones en GIF o MP4
+
+#### Guardar como GIF
+```py
+from matplotlib.animation import PillowWriter
+
+# ani = FuncAnimation(...)
+writer = PillowWriter(fps=30)
+ani.save("onda.gif", writer=writer, dpi=100)
+```
+#### Guardar como MP4
+```py
+from matplotlib.animation import FFMpegWriter
+# ani = FuncAnimation(...)
+writer = FFMpegWriter(fps=30, bitrate=1800)
+ani.save("onda.mp4", writer=writer, dpi=120)
+```
+Necesita FFmpeg, se debe instalar por consola.
+
+## Exportación y publicación de gráficos
+
+### Guardar en diferentes formatos
+```py 
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 2 * np.pi, 400)
+y = np.sin(x)
+
+fig, ax = plt.subplots(figsize=(6, 4), layout="constrained")
+ax.plot(x, y, label="sin(x)")
+ax.set_title("Ejemplo de exportación")
+ax.set_xlabel("x")
+ax.set_ylabel("y")
+ax.legend()
+
+fig.savefig("grafico.png", dpi=200, bbox_inches="tight")
+fig.savefig("grafico.pdf", bbox_inches="tight")
+fig.savefig("grafico.svg", bbox_inches="tight")
+```
+
+### Resolución
+* Web: 96-150 dpi.
+* Presentaciones: 150-200 dpi.
+* Publicaciones impresas: 300-600 dpi.
+```py
+fig, ax = plt.subplots(figsize=(6, 4), layout="constrained")
+fig.savefig("articulo.png", dpi=300)
+```
+### Preparación para artículos y presentaciones
+```py
+import matplotlib as mpl
+from cycler import cycler
+
+mpl.rcParams.update({
+        "font.family": "DejaVu Sans",
+        "font.size": 10,
+        "axes.titlesize": 12,
+        "axes.labelsize": 10,
+        "legend.fontsize": 9,
+        "xtick.labelsize": 9,
+        "ytick.labelsize": 9,
+        "lines.linewidth": 1.6,
+        "lines.markersize": 4.0,
+        "axes.grid": True,
+        "grid.linestyle": "--",
+        "grid.alpha": 0.35,
+        "axes.prop_cycle": cycler(color=[
+            "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728",
+            "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"
+            ])
+    })
+
+mpl.rcParams["pdf.fonttype"] = 42
+mpl.rcParams["ps.fonttype"] = 42
+mpl.rcParams["svg.fonttype"] = "none"
+```
+Mantén jerarquía tipográfica, alto contraste y paletas accesibles. Para LaTeX, activá `text.usetex` si la revista lo requiere

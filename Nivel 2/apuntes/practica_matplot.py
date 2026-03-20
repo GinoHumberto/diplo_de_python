@@ -368,27 +368,212 @@ import matplotlib.pyplot as plt
 #       Variantes 3D        #
 # ------------------------- #
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
+# import numpy as np
+
+# fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
+# X, Y = np.meshgrid(np.linspace(-2, 2, 50), np.linspace(-2, 2, 50))
+# Z = np.cos(X) * np.sin(Y)
+# ax.plot_wireframe(X, Y, Z, rstride=2, cstride=2)
+# ax.set_title("Wireframe 3D")
+# plt.show()
+
+# fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
+# ax.contour3D(X, Y, Z, levels=25, cmap="viridis")
+# ax.set_title("Contornos 3D")
+# plt.show()
+
+# from matplotlib.colors import LightSource
+
+# fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
+# ls = LightSource(azdeg=315, altdeg=45)
+# rgb = ls.shade(Z, cmap=plt.get_cmap("terrain"), vert_exag=1.0,
+# blend_mode="soft")
+# ax.plot_surface(X, Y, Z, facecolors=rgb, linewidth=0, antialiased=False)
+# ax.set_title("Superficie con sombreado (LightSource)")
+# plt.show()
+
+# ---------------------------- #
+#       Interactividad         #
+# ---------------------------- #
+
+# import numpy as np
+# import time
+
+# plt.ion()
+# fig, ax = plt.subplots(layout="constrained")
+
+# x = np.linspace(0, 2 * np.pi, 300)
+
+# (line,) = ax.plot(x, np.sin(x), label="sin(x)")
+# ax.set_ylim(-1.5, 1.5)
+# ax.legend()
+# fig.canvas.draw_idle()
+
+# for f in np.linspace(1, 3, 30):
+#     y = np.sin(f * x)
+#     line.set_ydata(y)
+#     ax.set_title(f"Frecuencia: {f:.2f} Hz")
+#     fig.canvas.draw_idle()
+#     fig.canvas.flush_events()
+#     time.sleep(0.05)
+
+# plt.ioff()
+# plt.show()
+
+# ------------- Seleccion para zoom -------------- #
+
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from matplotlib.widgets import SpanSelector
+
+# x = np.linspace(0, 10, 500)
+# y = np.sin(2 * np.pi * x) * np.exp(-0.2 * x)
+
+# fig, (ax, ax_zoom) = plt.subplots(2, 1, figsize=(8, 6), layout="constrained")
+# ax.plot(x, y)
+# ax.set_title("Arrastrá para seleccionar un rango (horizontal)")
+# ax_zoom.set_title("Zoom del rango seleccionado")
+
+# def onselect(xmin, xmax):
+#     mask = (x >= xmin) & (x <= xmax)
+#     ax_zoom.clear()
+#     ax_zoom.plot(x[mask], y[mask])
+#     ax_zoom.set_title(f"Rango seleccionado: {xmin:.2f} a {xmax:.2f}") # Esto va a marcar que valores seleccionamos en el zoom
+#     fig.canvas.draw_idle()
+
+# span = SpanSelector(  # Es lo que estoy importando
+#         ax,
+#         onselect,
+#         direction="horizontal",
+#         useblit=True,
+#         props=dict(alpha=0.3), # Es la transparencia del rango de selección.
+#         interactive=True
+#     )
+# plt.show()
+
+# ------------- Seleccion rectangular -------------- #
+
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from matplotlib.widgets import RectangleSelector
+
+# rng = np.random.default_rng(0)
+# x = rng.normal(0, 1, 800)
+# y = rng.normal(0, 1, 800)
+
+# fig, ax = plt.subplots(layout="constrained")
+# pts = ax.scatter(x, y, s=12, alpha=0.7)
+
+# ax.set_title("Arrastrá un rectángulo para seleccionar puntos")
+
+# def onselect(eclick, erelease):
+#     xmin, xmax = sorted([eclick.xdata, erelease.xdata])
+#     ymin, ymax = sorted([eclick.ydata, erelease.ydata])
+#     sel = (x >= xmin) & (x <= xmax) & (y >= ymin) & (y <= ymax)
+#     pts.set_alpha(np.where(sel, 1.0, 0.3))
+#     fig.canvas.draw_idle()
+
+# rect = RectangleSelector(
+#     ax,
+#     onselect,
+#     useblit=True,
+#     button=[1],
+#     props=dict(facecolor="tab:blue", alpha=0.15, edgecolor="k")
+#     )
+    
+# plt.show()
+
+# ---------------------------- #
+#       Widgets básicos        #
+# ---------------------------- #
+
+# ------------- Slider para controlar parámetros -------------- #
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from matplotlib.widgets import Slider
+
+# x = np.linspace(0, 2 * np.pi, 400)
+# fig, ax = plt.subplots(figsize=(8, 5), layout="constrained")
+# (line,) = ax.plot(x, np.sin(1 * x), label="sin(freq*x)")
+# ax.set_ylim(-1.5, 1.5)
+# ax.legend()
+
+# ax_slider = fig.add_axes([0.15, 0.05, 0.7, 0.04])
+# slider_freq = Slider(ax=ax_slider, label="Frecuencia", valmin=0.5, valmax=5.0, valinit=1.0)
+
+# def actualizar(val):
+#     f = slider_freq.val
+#     line.set_ydata(np.sin(f * x))
+#     ax.set_title(f"f = {f:.2f}")
+#     fig.canvas.draw_idle()
+    
+# slider_freq.on_changed(actualizar)
+# plt.show()
+
+# ------------- Botón para resetear o lanzar acciones -------------- #
+
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from matplotlib.widgets import Slider, Button
+
+# x = np.linspace(0, 2 * np.pi, 400)
+# fig, ax = plt.subplots(figsize=(8, 5), layout="constrained")
+# (line,) = ax.plot(x, np.sin(1 * x))
+# ax.set_ylim(-1.5, 1.5)
+
+# ax_s = fig.add_axes([0.15, 0.05, 0.6, 0.04])
+# sl = Slider(ax=ax_s, label="Frecuencia", valmin=0.5, valmax=5.0, valinit=1.0)
+
+# def on_change(val):
+#     line.set_ydata(np.sin(sl.val * x))
+#     fig.canvas.draw_idle()
+
+# sl.on_changed(on_change)
+
+# ax_b = fig.add_axes([0.78, 0.05, 0.12, 0.04])
+# btn = Button(ax=ax_b, label="Reset")
+
+# def on_reset(event):
+#     sl.reset()
+
+# btn.on_clicked(on_reset)
+# plt.show()
+
+# ------------------------ #
+#       Animaciones        #
+# ------------------------ #
+
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 
-fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
-X, Y = np.meshgrid(np.linspace(-2, 2, 50), np.linspace(-2, 2, 50))
-Z = np.cos(X) * np.sin(Y)
-ax.plot_wireframe(X, Y, Z, rstride=2, cstride=2)
-ax.set_title("Wireframe 3D")
-plt.show()
+x = np.linspace(0, 2 * np.pi, 600)
+fig, ax = plt.subplots(figsize=(7, 4), layout="constrained")
+(line,) = ax.plot(x, np.sin(x))
+ax.set_xlim(x.min(), x.max())
+ax.set_ylim(-1.2, 1.2)
+ax.set_title("Onda sinusoidal animada")
+ax.set_xlabel("x")
+ax.set_ylabel("y = sin(x - fase)")
 
-fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
-ax.contour3D(X, Y, Z, levels=25, cmap="viridis")
-ax.set_title("Contornos 3D")
-plt.show()
+def init():
+    line.set_ydata(np.sin(x))
+    return (line,)
 
-from matplotlib.colors import LightSource
+def update(frame):
+    fase = 0.05 * frame
+    line.set_ydata(np.sin(x - fase))
+    return (line,)
 
-fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, layout="constrained")
-ls = LightSource(azdeg=315, altdeg=45)
-rgb = ls.shade(Z, cmap=plt.get_cmap("terrain"), vert_exag=1.0,
-blend_mode="soft")
-ax.plot_surface(X, Y, Z, facecolors=rgb, linewidth=0, antialiased=False)
-ax.set_title("Superficie con sombreado (LightSource)")
+ani = FuncAnimation(
+    fig,
+    update,
+    frames=200,
+    init_func=init,
+    interval=20,
+    blit=True,
+    repeat=True
+    )
+
 plt.show()
