@@ -103,3 +103,194 @@ plt.ylabel("Total de la cuenta (USD)")
 plt.legend(title="Fumador")
 plt.show()
 ```
+
+
+# Clase 45
+
+## Histograma con histplot:
+
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Tema visual recomendado
+sns.set_theme(style="whitegrid", context="notebook")
+
+# Dataset de ejemplo
+tips = sns.load_dataset("tips")
+
+# Histograma simple de la cuenta total
+sns.histplot(data=tips, x="total_bill")
+plt.title("Histograma de total_bill (cuenta total)")
+plt.xlabel("Total de la cuenta (USD)")
+plt.ylabel("Frecuencia")
+plt.show()
+```
+
+
+## Variables categóricas con hue y múltiples series
+
+El parámetro hue colorea por categoría y multiple define cómo se combinan las series.
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set_theme(style="whitegrid", context="notebook")
+tips = sns.load_dataset("tips")
+sns.histplot(
+    data=tips,
+    x="total_bill",
+    hue="time", # Lunch vs Dinner
+    element="bars",
+    multiple="stack", # layer | stack | dodge | fill
+    bins=25,
+    stat="count"
+)
+plt.title("Histograma por momento del día (stack)")
+plt.show()
+```
+
+
+## Distribuciones discretas (enteros)
+Para datos enteros (por ejemplo, cantidad de comensales) indicá discrete=True o definí binwidth=1 .
+```py 
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set_theme(style="whitegrid", context="notebook")
+tips = sns.load_dataset("tips")
+
+sns.histplot(
+    data=tips,
+    x="size", 
+    discrete=True, # tamaño de grupo (entero) No existe 1 persona y media, solo existe una 
+    shrink=0.9 # Deja espacio entre barras
+)
+
+plt.title("Histograma de tamaño de grupo (discreto)")
+plt.xlabel("Tamaño de grupo")
+plt.ylabel("Frecuencia")
+plt.show()
+```
+
+
+## KDE (kernel density estimation) Básico
+
+Es una técnica que "dibuja" la forma de tus datos reales, sin importar si son simétricos o no.
+Es una herramienta estadística que toma tus datos (puntos individuales) y crea una curva continua para mostrar dónde se concentran más.
+
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set_theme(style="whitegrid", context="notebook")
+tips = sns.load_dataset("tips")
+
+sns.kdeplot(data=tips, x="total_bill")
+
+plt.title("KDE de total_bill (densidad suavizada)")
+plt.xlabel("Total de la cuenta (USD)")
+plt.ylabel("Densidad")
+plt.show()
+```
+
+Si quisiera agregar relleno utilizaria `fill = True`
+
+
+## Relleno de la curva y suavidad
+Activá fill=True para rellenar bajo la curva y ajustá bw_adjust para controlar la suavidad (valores mayores generan curvas más suaves).
+```py 
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set_theme(style="whitegrid", context="notebook")
+tips = sns.load_dataset("tips")
+sns.kdeplot(data=tips, x="total_bill", fill=True, bw_adjust=0.7) # bw_adjust: controla el suavizado de la curva, mientras mayor el valor, más suave
+plt.title("KDE con relleno (bw_adjust=0.7)")
+plt.show()
+```
+
+## Múltiples KDE por categoría
+El parámetro hue superpone o separa densidades por grupo, mientras que common_norm=False evita normalizarlas juntas.
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set_theme(style="whitegrid", context="notebook")
+tips = sns.load_dataset("tips")
+
+sns.kdeplot(
+    data=tips,
+    x="total_bill",
+    hue="time",
+    fill=True,
+    common_norm=False, # densidades independientes
+    alpha=0.6
+)
+
+plt.title("KDE por Lunch vs Dinner (densidades independientes)")
+plt.show()
+```
+
+
+## Combinación de histograma y KDE
+
+Podés superponer un histograma (frecuencias/bins) y una KDE (forma suavizada). Existen dos enfoques principales: superposición en el mismo eje o visualización con doble eje.
+
+### Superposición simple (mismo eje)
+Cuando haces ax = sns.histplot(...), Seaborn crea un objeto de tipo Axes, dibuja el histograma en él y te lo devuelve guardado en la variable ax.
+Al pasarle ax=ax, le estás diciendo a Seaborn: "No crees un gráfico nuevo; busca el dibujo que ya existe en la variable ax y añade el KDE encima".
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set_theme(style="whitegrid", context="notebook")
+tips = sns.load_dataset("tips")
+
+ax = sns.histplot(
+    data=tips, x="total_bill",
+    bins=30, stat="density", color="#99c2ff", alpha=0.6, edgecolor=None
+)
+
+sns.kdeplot(
+    data=tips, x="total_bill",
+    color="#003f8c", linewidth=2, ax=ax
+)
+
+plt.title("Histograma (densidad) + KDE superpuestos")
+plt.xlabel("Total de la cuenta (USD)")
+plt.ylabel("Densidad")
+plt.show()
+```
+
+
+### Doble eje: barras a la izquierda y KDE a la derecha
+Usá doble eje cuando la escala del histograma difiere mucho de la densidad.
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set_theme(style="whitegrid", context="notebook")
+tips = sns.load_dataset("tips")
+
+fig, ax1 = plt.subplots()
+# Histograma en eje izquierdo
+sns.histplot(
+    data=tips, x="total_bill",
+    bins=30, color="#a7d8de", alpha=0.7, ax=ax1
+)
+
+ax1.set_xlabel("Total de la cuenta (USD)")
+ax1.set_ylabel("Frecuencia (histograma)", color="#2c3e50")
+
+# Crear eje derecho para KDE
+ax2 = ax1.twinx()
+sns.kdeplot(
+    data=tips, x="total_bill",
+    color="#0b3c49", linewidth=2, ax=ax2
+)
+
+ax2.set_ylabel("Densidad (KDE)", color="#0b3c49")
+
+plt.title("Histograma (izq.) + KDE (der.) con ejes separados")
+plt.show()
